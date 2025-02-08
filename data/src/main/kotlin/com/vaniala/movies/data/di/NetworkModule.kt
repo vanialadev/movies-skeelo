@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vaniala.movies.data.BuildConfig
 import com.vaniala.movies.data.interceptor.TokenInterceptor
+import com.vaniala.movies.data.remote.service.MovieService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,4 +56,9 @@ object NetworkModule {
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
+
+
+    @Provides
+    @Singleton
+    fun providesMovieService(retrofit: Retrofit): MovieService = retrofit.create(MovieService::class.java)
 }
