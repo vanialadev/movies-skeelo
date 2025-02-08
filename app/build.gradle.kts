@@ -68,6 +68,8 @@ dependencies {
 
     implementation(libs.coil)
 
+    implementation(libs.navigation)
+
     detektPlugins(libs.detekt.formatting)
 
     debugImplementation(libs.leakcanary)
