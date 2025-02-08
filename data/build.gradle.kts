@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -30,10 +34,21 @@ android {
     kotlinOptions {
         jvmTarget = "21"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementation(libs.timber)
+    implementation(libs.retrofit)
+    implementation(libs.interceptor)
+    implementation(libs.moshi)
+    implementation(libs.moshi.converter)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
