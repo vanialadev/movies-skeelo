@@ -77,5 +77,8 @@ dependencies {
 
     detektPlugins(libs.detekt.formatting)
 
+    implementation(libs.paging)
+    implementation(libs.paging.runtime)
+
     debugImplementation(libs.leakcanary)
 }

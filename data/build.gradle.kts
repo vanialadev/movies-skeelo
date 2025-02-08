@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
+
     implementation(libs.timber)
     implementation(libs.retrofit)
     implementation(libs.interceptor)
