@@ -40,7 +40,7 @@ object NetworkModule {
             .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-//            .addInterceptor(tokenInterceptor)
+            .addInterceptor(tokenInterceptor)
             .build()
 
     @Provides
@@ -56,7 +56,6 @@ object NetworkModule {
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
-
 
     @Provides
     @Singleton
