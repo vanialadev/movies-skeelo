@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ktlint)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
@@ -48,6 +46,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    detektPlugins(libs.detekt.formatting)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -25,6 +25,7 @@ android {
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
+
         targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
@@ -34,6 +35,9 @@ android {
 
 dependencies {
     implementation(libs.timber)
+
+    detektPlugins(libs.detekt.formatting)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
