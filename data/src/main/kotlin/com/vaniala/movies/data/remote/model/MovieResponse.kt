@@ -1,25 +1,30 @@
 package com.vaniala.movies.data.remote.model
 
-data class Response(
-    val page: Long,
-    val results: List<Result>,
-    val totalPages: Long,
-    val totalResults: Long,
-)
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-data class Result(
-    val adult: Boolean,
-    val backdropPath: String,
-    val genreIds: List<Long>,
-    val id: Long,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Double,
-    val posterPath: String,
-    val releaseDate: String,
-    val title: String,
-    val video: Boolean,
-    val voteAverage: Double,
-    val voteCount: Long,
+@JsonClass(generateAdapter = true)
+data class MovieResponse(
+    val adult: Boolean? = null,
+    @Json(name = "backdrop_path")
+    val backdropPath: String? = null,
+    @Json(name = "genre_ids")
+    val genreIds: List<Long>? = null,
+    val id: Long? = null,
+    @Json(name = "original_language")
+    val originalLanguage: String? = null,
+    @Json(name = "original_title")
+    val originalTitle: String? = null,
+    val overview: String? = null,
+    val popularity: Double? = null,
+    @Json(name = "poster_path")
+    val posterPath: String? = null,
+    @Json(name = "release_date")
+    val releaseDate: String? = null,
+    val title: String? = null,
+    val video: Boolean? = null,
+    @Json(name = "vote_average")
+    val voteAverage: Double? = null,
+    @Json(name = "vote_count")
+    val voteCount: Long? = null,
 )
