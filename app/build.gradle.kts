@@ -72,6 +72,8 @@ dependencies {
 
     implementation(libs.timber)
 
+    implementation(libs.splashscreen)
+
     detektPlugins(libs.detekt.formatting)
 
     debugImplementation(libs.leakcanary)
