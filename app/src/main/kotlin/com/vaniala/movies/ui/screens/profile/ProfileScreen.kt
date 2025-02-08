@@ -1,9 +1,9 @@
-package com.vaniala.movies.ui.screens.home
+package com.vaniala.movies.ui.screens.profile
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun HomeScreen() {
-    Text(text = "home")
+fun ProfileScreen() {
+    Text(text = "profile")
 }

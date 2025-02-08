@@ -53,10 +53,10 @@ private fun MovieBottomAppBarPreview() {
     MoviesTheme {
         Surface {
             MovieBottomAppBar(
-                selectedItem = BottomAppBarItem.Perfil,
+                selectedItem = BottomAppBarItem.Profile,
                 items = listOf(
                     BottomAppBarItem.Home,
-                    BottomAppBarItem.Perfil,
+                    BottomAppBarItem.Profile,
                 ),
             )
         }
@@ -69,7 +69,7 @@ sealed class BottomAppBarItem(val label: String, val icon: ImageVector) {
         Icons.Default.Home,
     )
 
-    data object Perfil : BottomAppBarItem(
+    data object Profile : BottomAppBarItem(
         label = "Perfil",
         icon = Icons.Filled.AccountCircle,
     )
@@ -77,5 +77,5 @@ sealed class BottomAppBarItem(val label: String, val icon: ImageVector) {
 
 val bottomAppBarItems = listOf(
     BottomAppBarItem.Home,
-    BottomAppBarItem.Perfil,
+    BottomAppBarItem.Profile,
 )

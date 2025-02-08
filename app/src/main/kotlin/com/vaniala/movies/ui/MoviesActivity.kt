@@ -29,6 +29,8 @@ import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.navigation.HOME_ROUTE
 import com.vaniala.movies.navigation.homeScreen
 import com.vaniala.movies.navigation.navigateToHome
+import com.vaniala.movies.navigation.navigateToProfile
+import com.vaniala.movies.navigation.profileScreen
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +59,7 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
 
     val selectedBottomAppBarItem = when (currentRoute) {
         HOME_ROUTE -> BottomAppBarItem.Home
-        else -> BottomAppBarItem.Home
+        else -> BottomAppBarItem.Profile
     }
 
     MovieApp(
@@ -68,6 +70,7 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
     ) {
         NavHost(navController = navController, startDestination = HOME_ROUTE) {
             homeScreen()
+            profileScreen()
         }
     }
 }
@@ -76,7 +79,7 @@ fun NavController.navigateToBottomAppBarItem(item: BottomAppBarItem) {
     if (item == BottomAppBarItem.Home) {
         navigateToHome()
     } else {
-        navigateToHome()
+        navigateToProfile()
     }
 }
 
