@@ -26,6 +26,7 @@ moshi = "1.15.1"
 retrofit = "2.11.0"
 timber = "5.0.1"
 splashscreen = "1.0.1"
+paging = "3.3.5"
 
 [libraries]
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -38,6 +39,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+paging= { group = "androidx.paging",name ="paging-compose", version.ref = "paging" }
+paging-runtime = { group = "androidx.paging",name = "paging-runtime-ktx", version.ref = "paging" }
 
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 

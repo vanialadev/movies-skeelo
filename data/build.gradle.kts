@@ -50,6 +50,9 @@ dependencies {
 
     detektPlugins(libs.detekt.formatting)
 
+    implementation(libs.paging)
+    implementation(libs.paging.runtime)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
