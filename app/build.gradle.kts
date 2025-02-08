@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.coil)
+
     detektPlugins(libs.detekt.formatting)
 
     debugImplementation(libs.leakcanary)
