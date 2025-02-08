@@ -21,6 +21,9 @@ hilt = "2.54"
 hiltCompose = "1.2.0"
 coil = "2.7.0"
 navigation = "2.8.6"
+interceptor = "4.12.0"
+moshi = "1.15.1"
+retrofit = "2.11.0"
 
 [libraries]
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -42,6 +45,10 @@ hilt-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", vers
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+interceptor = { group = "com.squareup.okhttp3", name ="logging-interceptor", version.ref = "interceptor" }
+moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+retrofit = { group = "com.squareup.retrofit2", name ="retrofit", version.ref = "retrofit" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
