@@ -70,6 +70,8 @@ dependencies {
 
     implementation(libs.coil)
 
+    implementation(libs.timber)
+
     detektPlugins(libs.detekt.formatting)
 
     debugImplementation(libs.leakcanary)
