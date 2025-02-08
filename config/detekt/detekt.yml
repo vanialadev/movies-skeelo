@@ -304,10 +304,6 @@ exceptions:
       - 'RuntimeException'
       - 'Throwable'
 
-formatting:
-  ImportOrdering:
-    active: false
-
 naming:
   active: true
   BooleanPropertyNaming:
@@ -637,7 +633,7 @@ style:
     maxChainedCalls: 5
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 130
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
@@ -786,3 +782,18 @@ style:
     ignoreLateinitVar: false
   WildcardImport:
     active: true
+
+#detek-formatting
+#rules - https://github.com/detekt/detekt/blob/main/detekt-formatting/src/main/resources/config/config.yml
+formatting:
+  ImportOrdering:
+    active: false
+  ParameterListWrapping:
+    active: true
+    autoCorrect: true
+    maxLineLength: 130
+    indentSize: 4
+  MaximumLineLength:
+    active: true
+    maxLineLength: 130
+    ignoreBackTickedIdentifier: false
