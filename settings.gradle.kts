@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         google {
@@ -20,4 +22,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "movies"
-include(":app")
+include(":app", ":domain")

@@ -46,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
