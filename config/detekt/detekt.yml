@@ -304,6 +304,10 @@ exceptions:
       - 'RuntimeException'
       - 'Throwable'
 
+formatting:
+  ImportOrdering:
+    active: false
+
 naming:
   active: true
   BooleanPropertyNaming:
@@ -782,5 +786,3 @@ style:
     ignoreLateinitVar: false
   WildcardImport:
     active: true
-    excludeImports:
-      - 'java.util.*'
