@@ -61,6 +61,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     detektPlugins(libs.detekt.formatting)
+
+    debugImplementation(libs.leakcanary)
 }
 detekt {
     buildUponDefaultConfig = true
