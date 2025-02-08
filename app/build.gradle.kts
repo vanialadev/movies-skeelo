@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -57,4 +59,21 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+detekt {
+    buildUponDefaultConfig = true
+    allRules = true
+    config.setFrom("${rootProject.rootDir}/config/detekt/detekt.yml")
+    baseline = file("${rootProject.rootDir}/config/detekt/baseline.xml")
+}
+
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        html.outputLocation.set(file("${rootProject.rootDir}/config/detekt/reports/detekt.html"))
+    }
+}
+
+tasks.named("preBuild").configure {
+    dependsOn(tasks.named("detekt"))
 }
