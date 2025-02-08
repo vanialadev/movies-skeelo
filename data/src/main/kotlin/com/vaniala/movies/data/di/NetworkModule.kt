@@ -52,4 +52,6 @@ object NetworkModule {
         .baseUrl("")
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
+
+//    TODO("pegar base url")
 }
