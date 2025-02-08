@@ -12,14 +12,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vaniala.movies.HomeViewModel
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.navigation.HOME_ROUTE
+import com.vaniala.movies.navigation.homeScreen
+import com.vaniala.movies.navigation.navigateToHome
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,21 +49,47 @@ class MoviesActivity : ComponentActivity() {
 }
 
 @Composable
-fun MovieApp(
-//    navController: NavHostController = rememberNavController()
-) {
-//    val backStackEntryAsState by navController.currentBackStackEntryAsState()
-//    val currentDestination = backStackEntryAsState?.destination
+fun MovieApp(navController: NavHostController = rememberNavController()) {
+    val backStackEntryAsState by navController.currentBackStackEntryAsState()
+    val currentDestination = backStackEntryAsState?.destination
 
-//    val currentRout = currentDestination?.route
+    val currentRoute = currentDestination?.route
+
+    val selectedBottomAppBarItem = when (currentRoute) {
+        HOME_ROUTE -> BottomAppBarItem.Home
+        else -> BottomAppBarItem.Home
+    }
+
+    MovieApp(
+        selectedBottomAppBarItem,
+        onBottomAppBarItemSelectedChange = { item ->
+            navController.navigateToBottomAppBarItem(item)
+        },
+    ) {
+        NavHost(navController = navController, startDestination = HOME_ROUTE) {
+            homeScreen()
+        }
+    }
+}
+
+fun NavController.navigateToBottomAppBarItem(item: BottomAppBarItem) {
+    if (item == BottomAppBarItem.Home) {
+        navigateToHome()
+    } else {
+        navigateToHome()
+    }
 }
 
 @Composable
-fun MovieApp(onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {}) {
+fun MovieApp(
+    selectedBottomAppBarItem: BottomAppBarItem,
+    onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {},
+    content: @Composable () -> Unit,
+) {
     Scaffold(
         bottomBar = {
             MovieBottomAppBar(
-                selectedItem = BottomAppBarItem.Home,
+                selectedItem = selectedBottomAppBarItem,
                 items = bottomAppBarItems,
                 onItemClick = onBottomAppBarItemSelectedChange,
             )
@@ -63,7 +98,7 @@ fun MovieApp(onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {}) 
         Box(
             modifier = Modifier.padding(innerPadding),
         ) {
-            Text(modifier = Modifier.padding(innerPadding), text = "teste")
+            content()
         }
     }
 }
