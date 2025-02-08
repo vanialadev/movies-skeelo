@@ -2,6 +2,7 @@ package com.vaniala.movies.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.vaniala.movies.ui.screens.home.HomeScreen
 
@@ -13,6 +14,6 @@ fun NavGraphBuilder.homeScreen() {
     }
 }
 
-fun NavController.navigateToHome() {
-    navigate(HOME_ROUTE)
+fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+    navigate(HOME_ROUTE, navOptions)
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,22 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.vaniala.movies.HomeViewModel
 import com.vaniala.movies.domain.model.Movie
-import com.vaniala.movies.navigation.HOME_ROUTE
-import com.vaniala.movies.navigation.homeScreen
-import com.vaniala.movies.navigation.navigateToHome
-import com.vaniala.movies.navigation.navigateToProfile
-import com.vaniala.movies.navigation.profileScreen
+import com.vaniala.movies.navigation.MovieNavHost
+import com.vaniala.movies.navigation.PROFILE_ROUTE
+import com.vaniala.movies.navigation.navigateToBottomAppBarItem
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MoviesActivity : ComponentActivity() {
@@ -40,9 +34,6 @@ class MoviesActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val viwModel: HomeViewModel by viewModels()
-
-            val moviesPaging = viwModel.getMovies().collectAsLazyPagingItems()
             MoviesTheme {
                 MovieApp()
             }
@@ -54,38 +45,28 @@ class MoviesActivity : ComponentActivity() {
 fun MovieApp(navController: NavHostController = rememberNavController()) {
     val backStackEntryAsState by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntryAsState?.destination
-
     val currentRoute = currentDestination?.route
-
+    Timber.d("$currentRoute")
     val selectedBottomAppBarItem = when (currentRoute) {
-        HOME_ROUTE -> BottomAppBarItem.Home
-        else -> BottomAppBarItem.Profile
+        PROFILE_ROUTE -> BottomAppBarItem.Profile
+        else -> BottomAppBarItem.Home
     }
 
     MovieApp(
-        selectedBottomAppBarItem,
+        selectedBottomAppBarItem = selectedBottomAppBarItem,
+        bottomAppBarItems = bottomAppBarItems,
         onBottomAppBarItemSelectedChange = { item ->
             navController.navigateToBottomAppBarItem(item)
         },
     ) {
-        NavHost(navController = navController, startDestination = HOME_ROUTE) {
-            homeScreen()
-            profileScreen()
-        }
-    }
-}
-
-fun NavController.navigateToBottomAppBarItem(item: BottomAppBarItem) {
-    if (item == BottomAppBarItem.Home) {
-        navigateToHome()
-    } else {
-        navigateToProfile()
+        MovieNavHost(navController = navController)
     }
 }
 
 @Composable
 fun MovieApp(
     selectedBottomAppBarItem: BottomAppBarItem,
+    bottomAppBarItems: List<BottomAppBarItem>,
     onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {},
     content: @Composable () -> Unit,
 ) {

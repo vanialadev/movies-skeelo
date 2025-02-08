@@ -2,6 +2,7 @@ package com.vaniala.movies.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.vaniala.movies.ui.screens.profile.ProfileScreen
 
@@ -13,6 +14,6 @@ fun NavGraphBuilder.profileScreen() {
     }
 }
 
-fun NavController.navigateToProfile() {
-    navigate(PROFILE_ROUTE)
+fun NavController.navigateToProfile(navOptions: NavOptions? = null) {
+    navigate(PROFILE_ROUTE, navOptions)
 }
