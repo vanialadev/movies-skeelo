@@ -7,15 +7,17 @@ import androidx.paging.map
 import com.vaniala.movies.data.mappers.Mappers.toModel
 import com.vaniala.movies.data.remote.paging.MoviePaging
 import com.vaniala.movies.data.remote.service.MovieService
+import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-private const val PAGE_SIZE = 20
-private const val INITIAL_LOAD_SIZE = 30
+private const val PAGE_SIZE = 10
+private const val INITIAL_LOAD_SIZE = 15
 
 class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieService) : RemoteDataSource {
     override fun getMoviePopular(): Flow<PagingData<Movie>> = Pager(
@@ -34,4 +36,8 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
                 movies.toModel()
             }
         }
+
+    override fun getMovieImages(moveId: Int): Flow<Image> = flow {
+        emit(movieService.getMovieImages(moveId).toModel())
+    }.flowOn(IO)
 }
