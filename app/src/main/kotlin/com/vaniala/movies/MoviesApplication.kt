@@ -22,7 +22,7 @@ class MoviesApplication :
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+            Timber.plant(TagAkuAku())
         }
     }
 
@@ -47,4 +47,8 @@ class MoviesApplication :
         .crossfade(true)
         .logger(DebugLogger())
         .build()
+}
+
+class TagAkuAku : Timber.DebugTree() {
+    override fun createStackElementTag(element: StackTraceElement): String = "akuaku"
 }

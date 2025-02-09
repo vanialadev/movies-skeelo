@@ -18,7 +18,7 @@ class MoviePaging(private val service: MovieService) : PagingSource<Int, MovieRe
             val totalPages = response.totalPages ?: STARTING_PAGE_INDEX
             val nextKey = if (position.toLong() == totalPages) null else position.plus(1)
 
-            Timber.tag("akuaku").d("$nextKey")
+            Timber.d("$nextKey")
             LoadResult.Page(
                 data = movies ?: emptyList(),
                 prevKey = null,
