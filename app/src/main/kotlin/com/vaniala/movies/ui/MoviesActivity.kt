@@ -16,6 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import com.vaniala.movies.navigation.MovieNavHost
 import com.vaniala.movies.navigation.PROFILE_ROUTE
 import com.vaniala.movies.navigation.navigateToBottomAppBarItem
+import com.vaniala.movies.ui.components.BottomAppBarItem
+import com.vaniala.movies.ui.components.MovieBottomAppBar
+import com.vaniala.movies.ui.components.bottomAppBarItems
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

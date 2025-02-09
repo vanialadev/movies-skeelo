@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.vaniala.movies.ui.BottomAppBarItem
+import com.vaniala.movies.ui.components.BottomAppBarItem
 
 @Composable
 fun MovieNavHost(navController: NavHostController = rememberNavController()) {

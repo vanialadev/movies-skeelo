@@ -1,4 +1,4 @@
-package com.vaniala.movies.ui
+package com.vaniala.movies.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
