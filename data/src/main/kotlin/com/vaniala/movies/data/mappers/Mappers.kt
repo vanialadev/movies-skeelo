@@ -1,13 +1,17 @@
 package com.vaniala.movies.data.mappers
 
+import com.vaniala.movies.data.mappers.Mappers.toModel
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
-import com.vaniala.movies.data.remote.model.profile.DetailsProfileResponse
+import com.vaniala.movies.data.remote.model.profile.AvatarResponse
+import com.vaniala.movies.data.remote.model.profile.GravatarResponse
+import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
+import com.vaniala.movies.data.remote.model.profile.TmdbResponse
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.profile.Avatar
-import com.vaniala.movies.domain.model.profile.DetailsProfile
 import com.vaniala.movies.domain.model.profile.Gravatar
+import com.vaniala.movies.domain.model.profile.ProfileDetails
 import com.vaniala.movies.domain.model.profile.Tmdb
 import kotlin.random.Random
 
@@ -34,13 +38,23 @@ object Mappers {
         posters = posters?.first()?.filePath ?: String(),
     )
 
-    fun DetailsProfileResponse.toModel() = DetailsProfile(
-        id = id ?: 0,
-        avatar = avatar ?: Avatar(
-            gravatar = Gravatar(String()),
-            tmdb = Tmdb(String()),
-        ),
-        name = name ?: String(),
-        username = username ?: String(),
+    fun GravatarResponse.toModel() = Gravatar(
+        hash = hash,
+    )
+
+    fun TmdbResponse.toModel() = Tmdb(
+        avatarPath = avatarPath,
+    )
+
+    fun AvatarResponse.toModel() = Avatar(
+        gravatar = gravatar?.toModel(),
+        tmdb = tmdb?.toModel(),
+    )
+
+    fun ProfileDetailsResponse.toModel() = ProfileDetails(
+        id = id,
+        avatar = avatar?.toModel(),
+        name = name,
+        username = username,
     )
 }
