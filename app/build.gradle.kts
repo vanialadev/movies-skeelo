@@ -70,6 +70,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.coil)
+    implementation(libs.coil.svg)
 
     implementation(libs.timber)
 
