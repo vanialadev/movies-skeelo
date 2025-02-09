@@ -1,8 +1,20 @@
+import java.io.File
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+}
+
+fun getTmdbKey(): String {
+    val properties = Properties()
+    val propertiesFile = File("local.properties")
+    propertiesFile.inputStream().use { fileInputStream ->
+        properties.load(fileInputStream)
+    }
+    return properties.getProperty("TMDB_KEY")
 }
 
 android {
@@ -15,6 +27,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "API_KEY", getTmdbKey())
     }
 
     buildTypes {
