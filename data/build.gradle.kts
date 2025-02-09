@@ -8,13 +8,13 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-fun getTmdbKey(): String {
+fun getPropertiesKey(key: String): String {
     val properties = Properties()
     val propertiesFile = File("local.properties")
     propertiesFile.inputStream().use { fileInputStream ->
         properties.load(fileInputStream)
     }
-    return properties.getProperty("TMDB_KEY")
+    return properties.getProperty(key)
 }
 
 android {
@@ -27,7 +27,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
-        buildConfigField("String", "API_KEY", getTmdbKey())
+        buildConfigField("String", "API_KEY", getPropertiesKey("TMDB_KEY"))
+        buildConfigField("Integer", "ACOUNT_ID", getPropertiesKey("ACCOUNT_ID"))
+        buildConfigField("String", "SESSION_ID", getPropertiesKey("SESSION_ID"))
     }
 
     buildTypes {
