@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.paging.runtime)
 
+    implementation(libs.datastore)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

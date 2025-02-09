@@ -81,5 +81,7 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.paging.runtime)
 
+    implementation(libs.datastore)
+
     debugImplementation(libs.leakcanary)
 }
