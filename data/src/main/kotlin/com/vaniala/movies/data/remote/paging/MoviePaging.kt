@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.data.remote.service.MovieService
-import retrofit2.HttpException
 import timber.log.Timber
 
 private const val STARTING_PAGE_INDEX = 1
@@ -16,8 +15,8 @@ class MoviePaging(private val service: MovieService) : PagingSource<Int, MovieRe
         return try {
             val response = service.getMoviePopular(position)
             val movies = response.results
-            val totalPages: Long = response.totalPages ?: 1
-            val nextKey = if (position.toLong() == totalPages) null else position + 1
+            val totalPages = response.totalPages ?: STARTING_PAGE_INDEX
+            val nextKey = if (position.toLong() == totalPages) null else position.plus(1)
 
             Timber.tag("akuaku").d("$nextKey")
             LoadResult.Page(
@@ -25,8 +24,8 @@ class MoviePaging(private val service: MovieService) : PagingSource<Int, MovieRe
                 prevKey = null,
                 nextKey = nextKey,
             )
-        } catch (exception: HttpException) {
-            return LoadResult.Error(exception)
+        } catch (exception: Exception) {
+            LoadResult.Error(exception)
         }
     }
 
