@@ -1,7 +1,7 @@
 package com.vaniala.movies
 
 import android.app.Application
-import com.squareup.leakcanary.core.BuildConfig
+import com.vaniala.movies.data.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
