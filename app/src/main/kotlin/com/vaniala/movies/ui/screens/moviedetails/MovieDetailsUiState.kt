@@ -1,5 +1,5 @@
 package com.vaniala.movies.ui.screens.moviedetails
 
-import com.vaniala.movies.domain.model.MovieDetails
+import com.vaniala.movies.domain.model.MovieAllDetails
 
-data class MovieDetailsUiState(val movieDetails: MovieDetails? = null)
+data class MovieDetailsUiState(val movieAllDetails: MovieAllDetails? = null, val messageError: String? = null)
