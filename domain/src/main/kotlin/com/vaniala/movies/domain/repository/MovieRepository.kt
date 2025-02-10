@@ -3,6 +3,7 @@ package com.vaniala.movies.domain.repository
 import androidx.paging.PagingData
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.domain.model.MovieDetails
 import com.vaniala.movies.domain.model.profile.ProfileDetails
 import kotlinx.coroutines.flow.Flow
 
@@ -12,4 +13,5 @@ interface MovieRepository {
     fun getProfileDetails(): Flow<ProfileDetails>
     fun getFavorites(): Flow<PagingData<Movie>>
     fun getWatchlist(): Flow<PagingData<Movie>>
+    fun getMovieDetails(moveId: Long): Flow<MovieDetails>
 }

@@ -12,6 +12,7 @@ import com.vaniala.movies.data.remote.paging.WatchlistPaging
 import com.vaniala.movies.data.remote.service.MovieService
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.domain.model.MovieDetails
 import com.vaniala.movies.domain.model.profile.ProfileDetails
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.IO
@@ -86,4 +87,8 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
                 movies.toModel()
             }
         }
+
+    override fun getMovieDetails(moveId: Long): Flow<MovieDetails> = flow {
+        emit(movieService.getMovieDetails(moveId).toModel())
+    }.flowOn(IO)
 }

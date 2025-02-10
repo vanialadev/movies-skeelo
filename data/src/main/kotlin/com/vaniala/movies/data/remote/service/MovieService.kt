@@ -2,9 +2,11 @@ package com.vaniala.movies.data.remote.service
 
 import com.vaniala.movies.data.remote.model.ApiResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
+import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
 import com.vaniala.movies.data.utils.Constants.URL_FAVORITE_MOVIES
+import com.vaniala.movies.data.utils.Constants.URL_MOVIE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_IMAGES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_POPULAR
 import com.vaniala.movies.data.utils.Constants.URL_PROFILE_DETAILS
@@ -20,6 +22,9 @@ interface MovieService {
 
     @GET(URL_MOVIE_IMAGES)
     suspend fun getMovieImages(@Path("movie_id") moveId: Int): ImagesResponse
+
+    @GET(URL_MOVIE_DETAILS)
+    suspend fun getMovieDetails(@Path("movie_id") moveId: Long): MovieDetailsResponse
 
     @GET(URL_PROFILE_DETAILS)
     suspend fun getProfileDetails(@Path("account_id") accountId: Int): ProfileDetailsResponse

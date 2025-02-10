@@ -1,14 +1,17 @@
 package com.vaniala.movies.data.mappers
 
-import com.vaniala.movies.data.mappers.Mappers.toModel
+import com.vaniala.movies.data.remote.model.GenresResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
+import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.data.remote.model.profile.AvatarResponse
 import com.vaniala.movies.data.remote.model.profile.GravatarResponse
 import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
 import com.vaniala.movies.data.remote.model.profile.TmdbResponse
+import com.vaniala.movies.domain.model.Genres
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.domain.model.MovieDetails
 import com.vaniala.movies.domain.model.profile.Avatar
 import com.vaniala.movies.domain.model.profile.Gravatar
 import com.vaniala.movies.domain.model.profile.ProfileDetails
@@ -56,5 +59,25 @@ object Mappers {
         avatar = avatar?.toModel(),
         name = name,
         username = username,
+    )
+
+    fun MovieDetailsResponse.toModel(): MovieDetails = MovieDetails(
+        backdropPath = backdropPath,
+        genres = genres?.map { it.toGenres() },
+        id = id,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        tagline = tagline,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+    )
+
+    private fun GenresResponse.toGenres(): Genres = Genres(
+        id = id,
+        name = name,
     )
 }
