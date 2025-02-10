@@ -1,5 +1,6 @@
 package com.vaniala.movies.data.mappers
 
+import com.vaniala.movies.data.remote.model.AddWatchListOrFavoriteResponse
 import com.vaniala.movies.data.remote.model.GenresResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieDetailsResponse
@@ -8,6 +9,7 @@ import com.vaniala.movies.data.remote.model.profile.AvatarResponse
 import com.vaniala.movies.data.remote.model.profile.GravatarResponse
 import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
 import com.vaniala.movies.data.remote.model.profile.TmdbResponse
+import com.vaniala.movies.domain.model.AddWatchListOrFavorite
 import com.vaniala.movies.domain.model.Genres
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
@@ -79,5 +81,9 @@ object Mappers {
     private fun GenresResponse.toGenres(): Genres = Genres(
         id = id,
         name = name,
+    )
+
+    fun AddWatchListOrFavoriteResponse.toModel() = AddWatchListOrFavorite(
+        success = success,
     )
 }
