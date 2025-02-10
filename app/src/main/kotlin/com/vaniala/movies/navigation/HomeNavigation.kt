@@ -7,15 +7,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.navigation.ScreensDestinations.HomeScreenDestination
 import com.vaniala.movies.ui.screens.home.HomeScreen
 import com.vaniala.movies.ui.screens.home.HomeViewModel
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(onNavigateToMovieDetails: (Movie) -> Unit) {
     composable(HomeScreenDestination.route) {
         val viewModel = hiltViewModel<HomeViewModel>()
         val uiState by viewModel.uiState.collectAsState()
-        HomeScreen(uiState)
+        HomeScreen(
+            uiState,
+            onMovieClick = onNavigateToMovieDetails,
+        )
     }
 }
 

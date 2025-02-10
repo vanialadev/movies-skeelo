@@ -9,11 +9,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
 import com.vaniala.movies.ui.screens.profile.ProfileScreen
 import com.vaniala.movies.ui.screens.profile.ProfileViewModel
 
-fun NavGraphBuilder.profileScreen() {
+fun NavGraphBuilder.profileScreen(onNavigateToMovieDetails: (Movie) -> Unit) {
     composable(ProfileScreenDestination.route) {
         val context = LocalContext.current
         val viewModel = hiltViewModel<ProfileViewModel>()
@@ -26,6 +27,7 @@ fun NavGraphBuilder.profileScreen() {
             onRemoveMovieFromFavorite = {
                 Toast.makeText(context, "onRemoveMovieFromFavorite", Toast.LENGTH_SHORT).show()
             },
+            onMovieClick = onNavigateToMovieDetails,
         )
     }
 }

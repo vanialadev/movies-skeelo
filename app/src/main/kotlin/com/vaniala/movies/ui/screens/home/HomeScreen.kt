@@ -30,7 +30,7 @@ import com.vaniala.movies.ui.components.MovieItem
 import com.vaniala.movies.ui.theme.titleSection
 
 @Composable
-fun HomeScreen(uiState: HomeUiState) {
+fun HomeScreen(uiState: HomeUiState, onMovieClick: (Movie) -> Unit) {
     val moviesPaging = uiState.moviesPagingData?.collectAsLazyPagingItems()
     moviesPaging?.let {
         val context = LocalContext.current
@@ -50,14 +50,14 @@ fun HomeScreen(uiState: HomeUiState) {
                     modifier = Modifier.align(Alignment.Center),
                 )
             } else {
-                MovieList(moviesPaging)
+                MovieList(moviesPaging, onMovieClick)
             }
         }
     }
 }
 
 @Composable
-private fun MovieList(moviesPaging: LazyPagingItems<Movie>) {
+private fun MovieList(moviesPaging: LazyPagingItems<Movie>, onMovieClick: (Movie) -> Unit = {}) {
     Column {
         Text(
             text = stringResource(R.string.movies_popular),
@@ -76,7 +76,7 @@ private fun MovieList(moviesPaging: LazyPagingItems<Movie>) {
             items(moviesPaging.itemCount) { index ->
                 val movie = moviesPaging[index]
                 movie?.let {
-                    MovieItem(it)
+                    MovieItem(it, onMovieClick)
                 }
             }
             item {

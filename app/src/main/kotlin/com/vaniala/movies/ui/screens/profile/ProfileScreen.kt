@@ -57,7 +57,7 @@ import com.vaniala.movies.extensions.getTabTitle
 import com.vaniala.movies.ui.components.AsyncImageProfile
 import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN
 import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN_MAX
-import com.vaniala.movies.ui.utils.Constants.IMAGE_URL
+import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_SMALL
 import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN
 import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN_MAX
 import com.vaniala.movies.ui.utils.Constants.TRIPLE_COLUMN
@@ -68,6 +68,7 @@ fun ProfileScreen(
     state: ProfileUiState = ProfileUiState(),
     onRemoveMovieFromWatchlist: (Movie?) -> Unit = {},
     onRemoveMovieFromFavorite: (Movie?) -> Unit = {},
+    onMovieClick: (Movie) -> Unit = {},
 ) {
     val favoritesPaging = state.favoritesPagingData?.collectAsLazyPagingItems()
     val watchlistPaging = state.watchlistPagingData?.collectAsLazyPagingItems()
@@ -117,6 +118,7 @@ fun ProfileScreen(
             watchlistPaging = watchlistPaging,
             onRemoveMovieFromWatchlist = onRemoveMovieFromWatchlist,
             onRemoveMovieFromFavorite = onRemoveMovieFromFavorite,
+            onMovieClick = onMovieClick,
         )
     }
 }
@@ -166,6 +168,7 @@ fun HorizontalPage2(
     watchlistPaging: LazyPagingItems<Movie>?,
     onRemoveMovieFromWatchlist: (Movie?) -> Unit = {},
     onRemoveMovieFromFavorite: (Movie?) -> Unit = {},
+    onMovieClick: (Movie) -> Unit = {},
 ) {
     HorizontalPager(
         state = pagerState,
@@ -175,21 +178,26 @@ fun HorizontalPage2(
                 val columns = remember(favoritesPaging.itemCount) {
                     getColumns(favoritesPaging.itemCount)
                 }
-                GridMovies(columns, favoritesPaging, onRemoveMovieFromFavorite)
+                GridMovies(columns, favoritesPaging, onRemoveMovieFromFavorite, onMovieClick)
             }
 
             1 -> watchlistPaging?.let {
                 val columns = remember(watchlistPaging.itemCount) {
                     getColumns(watchlistPaging.itemCount)
                 }
-                GridMovies(columns, watchlistPaging, onRemoveMovieFromWatchlist)
+                GridMovies(columns, watchlistPaging, onRemoveMovieFromWatchlist, onMovieClick)
             }
         }
     }
 }
 
 @Composable
-private fun GridMovies(columns: Int, favoritesPaging: LazyPagingItems<Movie>, onRemoveMovieFromMyList: (Movie?) -> Unit) {
+private fun GridMovies(
+    columns: Int,
+    favoritesPaging: LazyPagingItems<Movie>,
+    onRemoveMovieFromMyList: (Movie?) -> Unit,
+    onMovieClick: (Movie) -> Unit = {},
+) {
     Column {
         LazyVerticalGrid(
             columns = GridCells.Fixed(columns),
@@ -203,7 +211,8 @@ private fun GridMovies(columns: Int, favoritesPaging: LazyPagingItems<Movie>, on
                 Column(
                     Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
+                        .height(200.dp)
+                        .clickable { movie?.let { onMovieClick(it) } },
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
@@ -248,7 +257,7 @@ private fun MovieWithRemove(onRemoveMovieFromMyList: (Movie?) -> Unit, movie: Mo
             )
         }
         AsyncImage(
-            model = IMAGE_URL + movie?.backdropPath,
+            model = IMAGE_URL_SMALL + movie?.backdropPath,
             contentDescription = null,
             Modifier
                 .fillMaxWidth()

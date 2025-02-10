@@ -13,8 +13,25 @@ import com.vaniala.movies.ui.components.BottomAppBarItem
 @Composable
 fun MovieNavHost(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = HomeScreenDestination.route) {
-        homeScreen()
-        profileScreen()
+        homeScreen(
+            onNavigateToMovieDetails = { movie ->
+                movie.id?.let {
+                    navController.navigateToMovieDetails(it)
+                }
+            },
+        )
+        profileScreen(
+            onNavigateToMovieDetails = { movie ->
+                movie.id?.let {
+                    navController.navigateToMovieDetails(it)
+                }
+            },
+        )
+        movieDetailsScreen(
+            onPopBackStack = {
+                navController.navigateUp()
+            },
+        )
     }
 }
 

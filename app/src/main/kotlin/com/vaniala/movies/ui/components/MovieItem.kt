@@ -1,5 +1,6 @@
 package com.vaniala.movies.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -11,16 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vaniala.movies.data.mappers.Mappers.toModel
-import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.domain.model.Movie
 
 @Composable
-fun MovieItem(movie: Movie) {
+fun MovieItem(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
     Column(
         Modifier
             .height(220.dp)
-            .width(120.dp),
+            .width(120.dp)
+            .clickable { onMovieClick(movie) },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -37,6 +37,6 @@ fun MovieItem(movie: Movie) {
 @Preview
 @Composable
 private fun MoviePreview() {
-    val movie = MovieResponse(title = "Moana 2").toModel()
+    val movie = Movie(title = "Moana 2")
     MovieItem(movie = movie)
 }
