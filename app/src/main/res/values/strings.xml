@@ -3,4 +3,6 @@
     <string name="content_description_image">poster do filme</string>
     <string name="movies_popular">Filmes populares</string>
     <string name="profile_title">Perfil</string>
+    <string name="favorites">Favoritos</string>
+    <string name="watchlist">Ver Depois</string>
 </resources>

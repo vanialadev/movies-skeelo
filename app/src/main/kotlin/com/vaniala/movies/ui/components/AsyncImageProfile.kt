@@ -39,7 +39,7 @@ fun AsyncImageProfile(avatar: Avatar?, modifier: Modifier = Modifier) {
             placeholder = ColorPainter(Color.LightGray),
             contentScale = ContentScale.FillBounds,
             modifier = modifier
-                .size(240.dp)
+                .size(120.dp)
                 .clip(CircleShape)
                 .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
         )
