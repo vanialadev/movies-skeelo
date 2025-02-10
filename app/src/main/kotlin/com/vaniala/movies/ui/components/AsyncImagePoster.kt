@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.vaniala.movies.R
-import com.vaniala.movies.ui.utils.Constants.IMAGE_URL
+import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_SMALL
 
 @Composable
 fun AsyncImagePoster(url: String?, modifier: Modifier = Modifier) {
     Box {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("$IMAGE_URL$url")
+                .data("$IMAGE_URL_SMALL$url")
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .build(),
