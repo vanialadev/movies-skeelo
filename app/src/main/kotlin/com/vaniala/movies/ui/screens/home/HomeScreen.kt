@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,16 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vaniala.movies.R
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.sampledata.sampleMoviePageData
 import com.vaniala.movies.ui.components.MovieItem
 import com.vaniala.movies.ui.theme.titleSection
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(uiState: HomeUiState) {
     val moviesPaging = uiState.moviesPagingData?.collectAsLazyPagingItems()
@@ -86,4 +86,11 @@ private fun MovieList(moviesPaging: LazyPagingItems<Movie>) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MovieListPreview() {
+    val sampleListMoviePageData = sampleMoviePageData.collectAsLazyPagingItems()
+    MovieList(sampleListMoviePageData)
 }
