@@ -1,4 +1,4 @@
-package com.vaniala.movies.data.remote.model.profile
+package com.vaniala.movies.data.remote.model
 
 data class ProfileDetailsResponse(
     var id: Int? = null,

@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
-import com.vaniala.movies.domain.model.profile.ProfileDetails
+import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.usecase.GetFavoriteUseCase
 import com.vaniala.movies.domain.usecase.GetMovieImages
 import com.vaniala.movies.domain.usecase.GetProfileDetailsUseCase

@@ -52,7 +52,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.vaniala.movies.domain.model.Movie
-import com.vaniala.movies.domain.model.profile.ProfileDetails
+import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.extensions.getTabTitle
 import com.vaniala.movies.ui.components.AsyncImageProfile
 import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN

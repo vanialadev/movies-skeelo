@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.vaniala.movies.R
-import com.vaniala.movies.domain.model.profile.Avatar
+import com.vaniala.movies.domain.model.Avatar
 import com.vaniala.movies.ui.utils.Constants.GRAVATAR_URL
 
 @Composable

@@ -2,7 +2,7 @@ package com.vaniala.movies.ui.screens.profile
 
 import androidx.paging.PagingData
 import com.vaniala.movies.domain.model.Movie
-import com.vaniala.movies.domain.model.profile.ProfileDetails
+import com.vaniala.movies.domain.model.ProfileDetails
 import kotlinx.coroutines.flow.Flow
 
 data class ProfileUiState(

@@ -3,25 +3,25 @@ package com.vaniala.movies.data.mappers
 import com.vaniala.movies.data.remote.model.AddFavoriteRequest
 import com.vaniala.movies.data.remote.model.AddWatchListOrFavoriteResponse
 import com.vaniala.movies.data.remote.model.AddWatchlistRequest
+import com.vaniala.movies.data.remote.model.AvatarResponse
 import com.vaniala.movies.data.remote.model.GenresResponse
+import com.vaniala.movies.data.remote.model.GravatarResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
-import com.vaniala.movies.data.remote.model.profile.AvatarResponse
-import com.vaniala.movies.data.remote.model.profile.GravatarResponse
-import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
-import com.vaniala.movies.data.remote.model.profile.TmdbResponse
+import com.vaniala.movies.data.remote.model.ProfileDetailsResponse
+import com.vaniala.movies.data.remote.model.TmdbResponse
 import com.vaniala.movies.domain.model.AddFavorite
 import com.vaniala.movies.domain.model.AddWatchListOrFavorite
 import com.vaniala.movies.domain.model.AddWatchlist
+import com.vaniala.movies.domain.model.Avatar
 import com.vaniala.movies.domain.model.Genres
+import com.vaniala.movies.domain.model.Gravatar
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
-import com.vaniala.movies.domain.model.profile.Avatar
-import com.vaniala.movies.domain.model.profile.Gravatar
-import com.vaniala.movies.domain.model.profile.ProfileDetails
-import com.vaniala.movies.domain.model.profile.Tmdb
+import com.vaniala.movies.domain.model.ProfileDetails
+import com.vaniala.movies.domain.model.Tmdb
 import kotlin.random.Random
 
 object Mappers {

@@ -8,7 +8,7 @@ import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
-import com.vaniala.movies.domain.model.profile.ProfileDetails
+import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.repository.MovieRepository
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.IO

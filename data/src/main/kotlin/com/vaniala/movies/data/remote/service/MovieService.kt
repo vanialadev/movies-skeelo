@@ -7,7 +7,7 @@ import com.vaniala.movies.data.remote.model.ApiResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
-import com.vaniala.movies.data.remote.model.profile.ProfileDetailsResponse
+import com.vaniala.movies.data.remote.model.ProfileDetailsResponse
 import com.vaniala.movies.data.utils.Constants.URL_ADD_FAVORITES_MOVIES
 import com.vaniala.movies.data.utils.Constants.URL_ADD_WATCHLIST_MOVIES
 import com.vaniala.movies.data.utils.Constants.URL_FAVORITE_MOVIES

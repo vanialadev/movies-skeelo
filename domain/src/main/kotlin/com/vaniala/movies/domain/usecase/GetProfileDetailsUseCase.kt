@@ -1,6 +1,6 @@
 package com.vaniala.movies.domain.usecase
 
-import com.vaniala.movies.domain.model.profile.ProfileDetails
+import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.repository.MovieRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
