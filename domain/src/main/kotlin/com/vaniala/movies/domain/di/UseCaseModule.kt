@@ -1,8 +1,8 @@
 package com.vaniala.movies.domain.di
 
 import com.vaniala.movies.domain.repository.MovieRepository
-import com.vaniala.movies.domain.usecase.GetMovieImages
-import com.vaniala.movies.domain.usecase.GetMoviePopular
+import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
+import com.vaniala.movies.domain.usecase.GetMoviePopularUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +15,9 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun providesGetMoviePopular(repository: MovieRepository): GetMoviePopular = GetMoviePopular(repository)
+    fun providesGetMoviePopular(repository: MovieRepository): GetMoviePopularUseCase = GetMoviePopularUseCase(repository)
 
     @Singleton
     @Provides
-    fun providesGetMovieImages(repository: MovieRepository): GetMovieImages = GetMovieImages(repository)
+    fun providesGetMovieImages(repository: MovieRepository): GetMovieImagesUseCase = GetMovieImagesUseCase(repository)
 }

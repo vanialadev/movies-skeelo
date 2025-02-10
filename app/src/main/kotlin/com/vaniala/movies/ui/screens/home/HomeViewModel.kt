@@ -7,8 +7,8 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
-import com.vaniala.movies.domain.usecase.GetMovieImages
-import com.vaniala.movies.domain.usecase.GetMoviePopular
+import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
+import com.vaniala.movies.domain.usecase.GetMoviePopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +21,8 @@ import timber.log.Timber
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getMoviePopular: GetMoviePopular,
-    private val getMovieImages: GetMovieImages,
+    private val getMoviePopularUseCase: GetMoviePopularUseCase,
+    private val getMovieImagesUseCase: GetMovieImagesUseCase,
 
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -33,10 +33,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getMovies() {
-        val moviesWithImages: Flow<PagingData<Movie>> = getMoviePopular().map { pagingData ->
+        val moviesWithImages: Flow<PagingData<Movie>> = getMoviePopularUseCase().map { pagingData ->
             pagingData.map { movie ->
                 try {
-                    val image = movie.id?.toInt()?.let { getMovieImages(it).first() }
+                    val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
                     movie.copy(images = image)
                 } catch (e: Exception) {
                     Timber.e(" ${movie.id}: $e")

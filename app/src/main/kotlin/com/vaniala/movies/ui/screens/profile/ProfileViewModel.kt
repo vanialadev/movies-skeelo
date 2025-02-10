@@ -9,7 +9,7 @@ import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.usecase.GetFavoriteUseCase
-import com.vaniala.movies.domain.usecase.GetMovieImages
+import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
 import com.vaniala.movies.domain.usecase.GetProfileDetailsUseCase
 import com.vaniala.movies.domain.usecase.GetWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     private val getProfileDetailsUseCase: GetProfileDetailsUseCase,
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val getWatchlistUseCase: GetWatchlistUseCase,
-    private val getMovieImages: GetMovieImages,
+    private val getMovieImagesUseCase: GetMovieImagesUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -44,7 +44,7 @@ class ProfileViewModel @Inject constructor(
         val moviesWithImages: Flow<PagingData<Movie>> = getWatchlistUseCase().map { pagingData ->
             pagingData.map { movie ->
                 try {
-                    val image = movie.id?.toInt()?.let { getMovieImages(it).first() }
+                    val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
                     movie.copy(images = image)
                 } catch (e: Exception) {
                     Timber.e(" ${movie.id}: $e")
@@ -62,7 +62,7 @@ class ProfileViewModel @Inject constructor(
         val moviesWithImages: Flow<PagingData<Movie>> = getFavoriteUseCase().map { pagingData ->
             pagingData.map { movie ->
                 try {
-                    val image = movie.id?.toInt()?.let { getMovieImages(it).first() }
+                    val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
                     movie.copy(images = image)
                 } catch (e: Exception) {
                     Timber.e(" ${movie.id}: $e")
