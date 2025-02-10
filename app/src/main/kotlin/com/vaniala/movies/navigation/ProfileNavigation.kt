@@ -22,14 +22,14 @@ fun NavGraphBuilder.profileScreen(onNavigateToMovieDetails: (Movie) -> Unit) {
 
         ProfileScreen(
             state,
-            onRemoveFavorite = {
+            onRemoveFavorite = { id, paging ->
                 scope.launch {
-                    viewModel.removeFavorite(it)
+                    viewModel.removeFavorite(id, paging)
                 }
             },
-            onRemoveWatchlist = {
+            onRemoveWatchlist = { id, paging ->
                 scope.launch {
-                    viewModel.removeWatchlist(it)
+                    viewModel.removeWatchlist(id, paging)
                 }
             },
             onMovieClick = onNavigateToMovieDetails,

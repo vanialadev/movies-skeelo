@@ -28,7 +28,6 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,19 +50,14 @@ import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.extensions.getTabTitle
 import com.vaniala.movies.ui.components.AsyncImageProfile
 import com.vaniala.movies.ui.components.GridMovies
-import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN
-import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN_MAX
 import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_LARGE
-import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN
-import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN_MAX
-import com.vaniala.movies.ui.utils.Constants.TRIPLE_COLUMN
 import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
     state: ProfileUiState = ProfileUiState(),
-    onRemoveFavorite: (Int) -> Unit = {},
-    onRemoveWatchlist: (Int) -> Unit = {},
+    onRemoveFavorite: (Int, LazyPagingItems<Movie>) -> Unit = { _, _ -> },
+    onRemoveWatchlist: (Int, LazyPagingItems<Movie>) -> Unit = { _, _ -> },
     onMovieClick: (Movie) -> Unit = {},
 ) {
     val favoritesPaging = state.favoritesPagingData?.collectAsLazyPagingItems()
@@ -109,6 +103,7 @@ fun ProfileScreen(
         Spacer(Modifier.height(16.dp))
         TabProfile(pagerState, tabs)
         HorizontalPageProfile(
+            state = state,
             pagerState = pagerState,
             favoritesPaging = favoritesPaging,
             watchlistPaging = watchlistPaging,
@@ -158,11 +153,12 @@ private fun TabProfile(pagerState: PagerState, tabs: List<Pair<String, ImageVect
 
 @Composable
 fun HorizontalPageProfile(
+    state: ProfileUiState,
     pagerState: PagerState,
     favoritesPaging: LazyPagingItems<Movie>?,
     watchlistPaging: LazyPagingItems<Movie>?,
-    onRemoveFavorite: (Int) -> Unit = {},
-    onRemoveWatchlist: (Int) -> Unit = {},
+    onRemoveFavorite: (Int, LazyPagingItems<Movie>) -> Unit = { _, _ -> },
+    onRemoveWatchlist: (Int, LazyPagingItems<Movie>) -> Unit = { _, _ -> },
     onMovieClick: (Movie) -> Unit = {},
 ) {
     HorizontalPager(
@@ -170,24 +166,28 @@ fun HorizontalPageProfile(
     ) { index: Int ->
         when (index) {
             0 -> favoritesPaging?.let {
-                val columns = remember(favoritesPaging.itemCount) {
-                    getColumns(favoritesPaging.itemCount)
-                }
-                GridMovies(columns, favoritesPaging, onRemoveFavorite, onMovieClick)
+                GridMovies(
+                    state.removingFavorites,
+                    favoritesPaging,
+                    onRemoveFavorite,
+                    onMovieClick,
+                )
             }
 
             1 -> watchlistPaging?.let {
-                val columns = remember(watchlistPaging.itemCount) {
-                    getColumns(watchlistPaging.itemCount)
-                }
-                GridMovies(columns, watchlistPaging, onRemoveWatchlist, onMovieClick)
+                GridMovies(
+                    state.removingWatchlist,
+                    watchlistPaging,
+                    onRemoveWatchlist,
+                    onMovieClick,
+                )
             }
         }
     }
 }
 
 @Composable
-fun MovieWithRemove(onRemove: (Int) -> Unit, movie: Movie?, columns: Int) {
+fun MovieWithRemove(onRemove: (Int, LazyPagingItems<Movie>) -> Unit, movie: Movie?, moviesPaging: LazyPagingItems<Movie>) {
     Box {
         Box(
             Modifier
@@ -198,7 +198,7 @@ fun MovieWithRemove(onRemove: (Int) -> Unit, movie: Movie?, columns: Int) {
                 )
                 .clip(CircleShape)
                 .align(Alignment.TopEnd)
-                .clickable { movie?.id?.let { onRemove(it) } }
+                .clickable { movie?.id?.let { onRemove(it, moviesPaging) } }
                 .padding(4.dp),
         ) {
             Icon(
@@ -210,13 +210,8 @@ fun MovieWithRemove(onRemove: (Int) -> Unit, movie: Movie?, columns: Int) {
                 tint = Color.Black,
             )
         }
-        val url = if (columns > SINGLE_COLUMN_MAX) {
-            IMAGE_URL_LARGE + movie?.backdropPath
-        } else {
-            IMAGE_URL_LARGE + movie?.posterPath
-        }
         AsyncImage(
-            model = url,
+            model = "$IMAGE_URL_LARGE${movie?.posterPath}",
             contentDescription = null,
             Modifier
                 .fillMaxWidth()
@@ -226,12 +221,6 @@ fun MovieWithRemove(onRemove: (Int) -> Unit, movie: Movie?, columns: Int) {
             contentScale = ContentScale.Crop,
         )
     }
-}
-
-fun getColumns(size: Int): Int = when {
-    size <= SINGLE_COLUMN_MAX -> SINGLE_COLUMN
-    size <= DOUBLE_COLUMN_MAX -> DOUBLE_COLUMN
-    else -> TRIPLE_COLUMN
 }
 
 @Preview(showBackground = true)

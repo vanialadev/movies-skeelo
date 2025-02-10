@@ -10,4 +10,6 @@ data class ProfileUiState(
     val nameUpdate: String? = null,
     val favoritesPagingData: Flow<PagingData<Movie>>? = null,
     val watchlistPagingData: Flow<PagingData<Movie>>? = null,
+    val removingFavorites: Set<Int> = setOf(),
+    val removingWatchlist: Set<Int> = setOf(),
 )

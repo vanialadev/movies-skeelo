@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import com.vaniala.movies.domain.model.AddFavorite
 import com.vaniala.movies.domain.model.AddWatchListOrFavorite
@@ -108,39 +108,37 @@ class ProfileViewModel @Inject constructor(
         return name
     }
 
-    fun removeFavorite(id: Int) {
+    fun removeFavorite(id: Int, pagingItems: LazyPagingItems<Movie>) {
         viewModelScope.launch {
             addToFavoriteUseCase(AddFavorite(mediaId = id, favorite = false))
                 .collect { status: AddWatchListOrFavorite ->
                     if (status.success == true) {
                         _uiState.update { state ->
                             state.copy(
-                                favoritesPagingData = state.favoritesPagingData?.map { pagingData ->
-                                    pagingData.filter { movie ->
-                                        movie.id != id
-                                    }
-                                }?.cachedIn(viewModelScope),
+                                removingFavorites = state.removingFavorites + id,
                             )
                         }
+                        pagingItems.refresh()
+                    } else {
+                        // todo:v tratar erro se nao remover da api
                     }
                 }
         }
     }
 
-    fun removeWatchlist(id: Int) {
+    fun removeWatchlist(id: Int, pagingItems: LazyPagingItems<Movie>) {
         viewModelScope.launch {
             addWatchlistUseCase(AddWatchlist(mediaId = id, watchlist = false))
                 .collect { status: AddWatchListOrFavorite ->
                     if (status.success == true) {
                         _uiState.update { state ->
                             state.copy(
-                                watchlistPagingData = state.watchlistPagingData?.map { pagingData ->
-                                    pagingData.filter { movie ->
-                                        movie.id?.toInt() != id
-                                    }
-                                }?.cachedIn(viewModelScope),
+                                removingWatchlist = state.removingWatchlist + id,
                             )
                         }
+                        pagingItems.refresh()
+                    } else {
+//                        todo:v tratar erro se nao remover da api
                     }
                 }
         }
