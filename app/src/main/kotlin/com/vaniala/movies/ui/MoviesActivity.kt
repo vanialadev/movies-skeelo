@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.vaniala.movies.R
 import com.vaniala.movies.navigation.MovieNavHost
 import com.vaniala.movies.navigation.ScreensDestinations.HomeScreenDestination
+import com.vaniala.movies.navigation.ScreensDestinations.MovieDetailsScreenDestination
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
 import com.vaniala.movies.navigation.navigateToBottomAppBarItem
 import com.vaniala.movies.ui.components.BottomAppBarItem
@@ -102,6 +103,9 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
         topAppBarTitle = {
             when (currentRoute) {
                 ProfileScreenDestination.route -> Text(stringResource(R.string.profile_title))
+                MovieDetailsScreenDestination.route, MovieDetailsScreenDestination.routeWithArgs -> Text(
+                    stringResource(R.string.details),
+                )
             }
         },
     ) {
