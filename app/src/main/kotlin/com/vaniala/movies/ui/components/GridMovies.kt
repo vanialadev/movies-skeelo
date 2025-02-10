@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -20,10 +19,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.ui.screens.profile.MovieWithRemove
-import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN
-import com.vaniala.movies.ui.utils.Constants.DOUBLE_COLUMN_MAX
-import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN
-import com.vaniala.movies.ui.utils.Constants.SINGLE_COLUMN_MAX
 import com.vaniala.movies.ui.utils.Constants.TRIPLE_COLUMN
 
 @Composable
@@ -33,12 +28,9 @@ fun GridMovies(
     onRemove: (Int, LazyPagingItems<Movie>) -> Unit,
     onMovieClick: (Movie) -> Unit = {},
 ) {
-    val columns = remember(moviesPaging.itemCount) {
-        getColumns(moviesPaging.itemCount)
-    }
     Column {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(columns),
+            columns = GridCells.Fixed(TRIPLE_COLUMN),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -77,10 +69,4 @@ fun GridMovies(
             }
         }
     }
-}
-
-fun getColumns(size: Int): Int = when {
-    size <= SINGLE_COLUMN_MAX -> SINGLE_COLUMN
-    size <= DOUBLE_COLUMN_MAX -> DOUBLE_COLUMN
-    else -> TRIPLE_COLUMN
 }
