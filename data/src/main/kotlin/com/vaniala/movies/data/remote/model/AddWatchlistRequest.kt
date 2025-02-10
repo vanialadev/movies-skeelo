@@ -8,6 +8,6 @@ data class AddWatchlistRequest(
     @Json(name = "media_type")
     val mediaType: String = "movie",
     @Json(name = "media_id")
-    val mediaId: Long? = null,
-    val favorite: Boolean? = false,
+    val mediaId: Int? = null,
+    val watchlist: Boolean = false,
 )

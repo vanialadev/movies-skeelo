@@ -11,9 +11,9 @@ object Constants {
 
     const val URL_PROFILE_DETAILS = "account/{account_id}"
 
-    const val URL_FAVORITE_MOVIES = "account/{account_id}/favorite/movies?language=pt-BR&page=1&sort_by=created_at.asc"
-    const val URL_WATCHLIST_MOVIES = "account/{account_id}/watchlist/movies?language=pt-br&page=1&sort_by=created_at.asc"
+    const val URL_FAVORITE_MOVIES = "account/{account_id}/favorite/movies?language=pt-BR&page=1&sort_by=created_at.desc"
+    const val URL_WATCHLIST_MOVIES = "account/{account_id}/watchlist/movies?language=pt-br&page=1&sort_by=created_at.desc"
 
-    const val URL_ADD_FAVORITES_MOVIES = "account/{account_id}/favorite}"
-    const val URL_ADD_WATCHLIST_MOVIES = "account/{account_id}/watchlist}"
+    const val URL_ADD_FAVORITES_MOVIES = "account/{account_id}/favorite"
+    const val URL_ADD_WATCHLIST_MOVIES = "account/{account_id}/watchlist"
 }

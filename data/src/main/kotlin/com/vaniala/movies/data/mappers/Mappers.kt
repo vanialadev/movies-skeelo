@@ -91,12 +91,13 @@ object Mappers {
 
     fun AddWatchListOrFavoriteResponse.toModel() = AddWatchListOrFavorite(
         success = success,
+        statusMessage = statusMessage,
     )
 
     fun AddWatchlist.toRequest() = AddWatchlistRequest(
         mediaType = mediaType,
         mediaId = mediaId,
-        favorite = favorite,
+        watchlist = watchlist,
     )
 
     fun AddFavorite.toRequest() = AddFavoriteRequest(

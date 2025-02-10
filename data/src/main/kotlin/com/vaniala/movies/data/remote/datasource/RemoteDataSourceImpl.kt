@@ -22,9 +22,11 @@ import com.vaniala.movies.domain.model.ProfileDetails
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 private const val PAGE_SIZE_MOVIE_POPULAR = 10
 private const val INITIAL_LOAD_SIZE_MOVIE_POPULAR = 15
@@ -48,24 +50,37 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
             paging.map { movies ->
                 movies.toModel()
             }
+        }.catch {
+            Timber.e(it)
         }
 
     override fun getMovieImages(moveId: Int): Flow<Image> = flow {
         emit(movieService.getMovieImages(moveId).toModel())
-    }.flowOn(IO)
+    }.flowOn(IO).catch {
+        Timber.e(it)
+    }
 
     override fun getMovieDetails(moveId: Int): Flow<MovieDetails> = flow {
         emit(movieService.getMovieDetails(moveId).toModel())
     }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
 
     override fun getMovieStatus(moveId: Int): Flow<MovieStatus> = flow {
         emit(movieService.getMovieStatus(moveId).toModel())
     }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
 
     override fun getProfileDetails(): Flow<ProfileDetails> = flow {
         val accountId = BuildConfig.ACOUNT_ID
         emit(movieService.getProfileDetails(accountId).toModel())
     }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
 
     override fun getFavorites(): Flow<PagingData<Movie>> = Pager(
         config = PagingConfig(
@@ -82,6 +97,9 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
             paging.map { movies ->
                 movies.toModel()
             }
+        }
+        .catch {
+            Timber.e(it)
         }
 
     override fun getWatchlist(): Flow<PagingData<Movie>> = Pager(
@@ -100,15 +118,25 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
                 movies.toModel()
             }
         }
+        .catch {
+            Timber.e(it)
+        }
 
     override fun addFavorites(favorite: AddFavorite): Flow<AddWatchListOrFavorite> = flow {
-        val addWatchListOrFavoriteResponse = movieService.addFavorite(
-            accountId = BuildConfig.ACOUNT_ID,
-            sessionId = BuildConfig.SESSION_ID,
-            body = favorite.toRequest(),
-        )
-        emit(addWatchListOrFavoriteResponse.toModel())
+        try {
+            val addWatchListOrFavoriteResponse = movieService.addFavorite(
+                accountId = BuildConfig.ACOUNT_ID,
+                sessionId = BuildConfig.SESSION_ID,
+                body = favorite.toRequest(),
+            )
+            emit(addWatchListOrFavoriteResponse.toModel())
+        } catch (e: Exception) {
+            emit(AddWatchListOrFavorite(success = false, statusMessage = e.message))
+        }
     }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
 
     override fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite> = flow {
         val addWatchListOrFavoriteResponse = movieService.addWatchlist(
@@ -118,4 +146,9 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
         )
         emit(addWatchListOrFavoriteResponse.toModel())
     }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
+
+//    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
 }

@@ -6,8 +6,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AddFavoriteRequest(
     @Json(name = "media_type")
-    val mediaType: String = "movie",
+    val mediaType: String? = "movie",
     @Json(name = "media_id")
-    val mediaId: Long? = null,
+    val mediaId: Int? = null,
     val favorite: Boolean? = false,
 )
