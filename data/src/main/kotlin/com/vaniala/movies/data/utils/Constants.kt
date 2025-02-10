@@ -7,6 +7,7 @@ object Constants {
     const val URL_MOVIE_POPULAR = "movie/popular?language=pt-BR"
     const val URL_MOVIE_IMAGES = "movie/{movie_id}/images"
     const val URL_MOVIE_DETAILS = "movie/{movie_id}?language=pt-BR"
+    const val URL_MOVIE_STATUS = "movie/{movie_id}/account_states"
 
     const val URL_PROFILE_DETAILS = "account/{account_id}"
 

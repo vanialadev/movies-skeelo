@@ -7,6 +7,7 @@ import com.vaniala.movies.data.remote.model.ApiResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
+import com.vaniala.movies.data.remote.model.MovieStatusResponse
 import com.vaniala.movies.data.remote.model.ProfileDetailsResponse
 import com.vaniala.movies.data.utils.Constants.URL_ADD_FAVORITES_MOVIES
 import com.vaniala.movies.data.utils.Constants.URL_ADD_WATCHLIST_MOVIES
@@ -14,6 +15,7 @@ import com.vaniala.movies.data.utils.Constants.URL_FAVORITE_MOVIES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_IMAGES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_POPULAR
+import com.vaniala.movies.data.utils.Constants.URL_MOVIE_STATUS
 import com.vaniala.movies.data.utils.Constants.URL_PROFILE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_WATCHLIST_MOVIES
 import retrofit2.http.Body
@@ -31,7 +33,10 @@ interface MovieService {
     suspend fun getMovieImages(@Path("movie_id") moveId: Int): ImagesResponse
 
     @GET(URL_MOVIE_DETAILS)
-    suspend fun getMovieDetails(@Path("movie_id") moveId: Long): MovieDetailsResponse
+    suspend fun getMovieDetails(@Path("movie_id") moveId: Int): MovieDetailsResponse
+
+    @GET(URL_MOVIE_STATUS)
+    suspend fun getMovieStatus(@Path("movie_id") moveId: Int): MovieStatusResponse
 
     @GET(URL_PROFILE_DETAILS)
     suspend fun getProfileDetails(@Path("account_id") accountId: Int): ProfileDetailsResponse

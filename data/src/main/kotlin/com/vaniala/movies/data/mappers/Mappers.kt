@@ -9,6 +9,7 @@ import com.vaniala.movies.data.remote.model.GravatarResponse
 import com.vaniala.movies.data.remote.model.ImagesResponse
 import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
+import com.vaniala.movies.data.remote.model.MovieStatusResponse
 import com.vaniala.movies.data.remote.model.ProfileDetailsResponse
 import com.vaniala.movies.data.remote.model.TmdbResponse
 import com.vaniala.movies.domain.model.AddFavorite
@@ -20,6 +21,7 @@ import com.vaniala.movies.domain.model.Gravatar
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
+import com.vaniala.movies.domain.model.MovieStatus
 import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.model.Tmdb
 import kotlin.random.Random
@@ -101,5 +103,12 @@ object Mappers {
         mediaType = mediaType,
         mediaId = mediaId,
         favorite = favorite,
+    )
+
+    fun MovieStatusResponse.toModel() = MovieStatus(
+        id = id,
+        favorite = favorite,
+        rated = rated,
+        watchlist = watchlist,
     )
 }

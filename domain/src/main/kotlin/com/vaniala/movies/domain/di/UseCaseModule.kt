@@ -15,7 +15,9 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun providesGetMoviePopular(repository: MovieRepository): GetMoviePopularUseCase = GetMoviePopularUseCase(repository)
+    fun providesGetMoviePopular(repository: MovieRepository): GetMoviePopularUseCase = GetMoviePopularUseCase(
+        repository,
+    )
 
     @Singleton
     @Provides

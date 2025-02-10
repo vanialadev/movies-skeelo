@@ -17,6 +17,7 @@ import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
+import com.vaniala.movies.domain.model.MovieStatus
 import com.vaniala.movies.domain.model.ProfileDetails
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.IO
@@ -51,6 +52,14 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
 
     override fun getMovieImages(moveId: Int): Flow<Image> = flow {
         emit(movieService.getMovieImages(moveId).toModel())
+    }.flowOn(IO)
+
+    override fun getMovieDetails(moveId: Int): Flow<MovieDetails> = flow {
+        emit(movieService.getMovieDetails(moveId).toModel())
+    }.flowOn(IO)
+
+    override fun getMovieStatus(moveId: Int): Flow<MovieStatus> = flow {
+        emit(movieService.getMovieStatus(moveId).toModel())
     }.flowOn(IO)
 
     override fun getProfileDetails(): Flow<ProfileDetails> = flow {
@@ -91,10 +100,6 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
                 movies.toModel()
             }
         }
-
-    override fun getMovieDetails(moveId: Long): Flow<MovieDetails> = flow {
-        emit(movieService.getMovieDetails(moveId).toModel())
-    }.flowOn(IO)
 
     override fun addFavorites(favorite: AddFavorite): Flow<AddWatchListOrFavorite> = flow {
         val addWatchListOrFavoriteResponse = movieService.addFavorite(
