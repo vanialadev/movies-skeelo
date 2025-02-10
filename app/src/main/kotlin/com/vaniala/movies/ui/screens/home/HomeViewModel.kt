@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
         val moviesWithImages: Flow<PagingData<Movie>> = getMoviePopular().map { pagingData ->
             pagingData.map { movie ->
                 try {
-                    val image = getMovieImages(movie.id.toInt()).first()
+                    val image = movie.id?.toInt()?.let { getMovieImages(it).first() }
                     movie.copy(images = image)
                 } catch (e: Exception) {
                     Timber.e(" ${movie.id}: $e")
