@@ -24,24 +24,23 @@ import com.vaniala.movies.domain.model.MovieDetails
 import com.vaniala.movies.domain.model.MovieStatus
 import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.domain.model.Tmdb
-import kotlin.random.Random
 
 object Mappers {
     fun MovieResponse.toModel() = Movie(
-        adult = adult ?: false,
-        backdropPath = backdropPath ?: String(),
-        genreIds = genreIds ?: emptyList(),
-        id = id ?: Random.nextLong(),
-        originalLanguage = originalLanguage ?: String(),
-        originalTitle = originalTitle ?: String(),
-        overview = overview ?: String(),
-        popularity = popularity ?: 0.0,
-        posterPath = posterPath ?: String(),
-        releaseDate = releaseDate ?: String(),
-        title = title ?: String(),
-        video = video ?: false,
-        voteAverage = voteAverage ?: 0.0,
-        voteCount = voteCount ?: 0,
+        adult = adult,
+        backdropPath = backdropPath,
+        genreIds = genreIds,
+        id = id,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        releaseDate = releaseDate,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
     )
 
     fun ImagesResponse.toModel(): Image = Image(

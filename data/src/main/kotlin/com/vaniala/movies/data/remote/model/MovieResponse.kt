@@ -10,7 +10,7 @@ data class MovieResponse(
     val backdropPath: String? = null,
     @Json(name = "genre_ids")
     val genreIds: List<Long>? = null,
-    val id: Long? = null,
+    val id: Int? = null,
     @Json(name = "original_language")
     val originalLanguage: String? = null,
     @Json(name = "original_title")

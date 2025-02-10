@@ -63,6 +63,6 @@ fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
     }
 }
 
-fun NavController.navigateToMovieDetails(id: Long, navOptions: NavOptions? = null) {
+fun NavController.navigateToMovieDetails(id: Int, navOptions: NavOptions? = null) {
     navigate("${MovieDetailsScreenDestination.route}/$id", navOptions)
 }

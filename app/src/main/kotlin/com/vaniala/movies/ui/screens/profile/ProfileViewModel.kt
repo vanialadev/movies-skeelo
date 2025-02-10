@@ -4,10 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
+import com.vaniala.movies.domain.model.AddFavorite
+import com.vaniala.movies.domain.model.AddWatchListOrFavorite
+import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.ProfileDetails
+import com.vaniala.movies.domain.usecase.AddFavoriteUseCase
+import com.vaniala.movies.domain.usecase.AddWatchlistUseCase
 import com.vaniala.movies.domain.usecase.GetFavoriteUseCase
 import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
 import com.vaniala.movies.domain.usecase.GetProfileDetailsUseCase
@@ -30,6 +36,8 @@ class ProfileViewModel @Inject constructor(
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val getWatchlistUseCase: GetWatchlistUseCase,
     private val getMovieImagesUseCase: GetMovieImagesUseCase,
+    private val addToFavoriteUseCase: AddFavoriteUseCase,
+    private val addWatchlistUseCase: AddWatchlistUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -98,5 +106,43 @@ class ProfileViewModel @Inject constructor(
             name = profileDetails.name
         }
         return name
+    }
+
+    fun removeFavorite(id: Int) {
+        viewModelScope.launch {
+            addToFavoriteUseCase(AddFavorite(mediaId = id, favorite = false))
+                .collect { status: AddWatchListOrFavorite ->
+                    if (status.success == true) {
+                        _uiState.update { state ->
+                            state.copy(
+                                favoritesPagingData = state.favoritesPagingData?.map { pagingData ->
+                                    pagingData.filter { movie ->
+                                        movie.id != id
+                                    }
+                                }?.cachedIn(viewModelScope),
+                            )
+                        }
+                    }
+                }
+        }
+    }
+
+    fun removeWatchlist(id: Int) {
+        viewModelScope.launch {
+            addWatchlistUseCase(AddWatchlist(mediaId = id, watchlist = false))
+                .collect { status: AddWatchListOrFavorite ->
+                    if (status.success == true) {
+                        _uiState.update { state ->
+                            state.copy(
+                                watchlistPagingData = state.watchlistPagingData?.map { pagingData ->
+                                    pagingData.filter { movie ->
+                                        movie.id?.toInt() != id
+                                    }
+                                }?.cachedIn(viewModelScope),
+                            )
+                        }
+                    }
+                }
+        }
     }
 }

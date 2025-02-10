@@ -1,9 +1,8 @@
 package com.vaniala.movies.navigation
 
-import android.widget.Toast
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,19 +12,25 @@ import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
 import com.vaniala.movies.ui.screens.profile.ProfileScreen
 import com.vaniala.movies.ui.screens.profile.ProfileViewModel
+import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.profileScreen(onNavigateToMovieDetails: (Movie) -> Unit) {
     composable(ProfileScreenDestination.route) {
-        val context = LocalContext.current
         val viewModel = hiltViewModel<ProfileViewModel>()
         val state by viewModel.uiState.collectAsState()
+        val scope = rememberCoroutineScope()
+
         ProfileScreen(
             state,
-            onRemoveMovieFromWatchlist = {
-                Toast.makeText(context, "onRemoveMovieFromWatchlist", Toast.LENGTH_SHORT).show()
+            onRemoveFavorite = {
+                scope.launch {
+                    viewModel.removeFavorite(it)
+                }
             },
-            onRemoveMovieFromFavorite = {
-                Toast.makeText(context, "onRemoveMovieFromFavorite", Toast.LENGTH_SHORT).show()
+            onRemoveWatchlist = {
+                scope.launch {
+                    viewModel.removeWatchlist(it)
+                }
             },
             onMovieClick = onNavigateToMovieDetails,
         )
