@@ -2,17 +2,20 @@ package com.vaniala.movies.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.vaniala.movies.data.BuildConfig
 import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.data.remote.service.MovieService
 import com.vaniala.movies.data.utils.Constants.STARTING_PAGE_INDEX
 import timber.log.Timber
 
-class MoviePaging(private val service: MovieService) : PagingSource<Int, MovieResponse>() {
+class WatchlistPaging(private val service: MovieService) : PagingSource<Int, MovieResponse>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieResponse> {
         val position = params.key ?: STARTING_PAGE_INDEX
+        val accountId = BuildConfig.ACOUNT_ID
+        val sessionId = BuildConfig.SESSION_ID
 
         return try {
-            val response = service.getMoviePopular(position)
+            val response = service.getWatchlist(page = position, sessionId = sessionId, accountId = accountId)
             val movies = response.results
             val totalPages = response.totalPages ?: STARTING_PAGE_INDEX
             val nextKey = if (position.toLong() == totalPages) null else position.plus(1)

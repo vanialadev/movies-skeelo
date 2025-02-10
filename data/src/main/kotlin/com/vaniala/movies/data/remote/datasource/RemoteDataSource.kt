@@ -10,4 +10,6 @@ interface RemoteDataSource {
     fun getMoviePopular(): Flow<PagingData<Movie>>
     fun getMovieImages(moveId: Int): Flow<Image>
     fun getProfileDetails(): Flow<ProfileDetails>
+    fun getFavorites(): Flow<PagingData<Movie>>
+    fun getWatchlist(): Flow<PagingData<Movie>>
 }

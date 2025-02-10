@@ -15,4 +15,6 @@ class MovieRepositoryImpl @Inject constructor(private val dataSource: RemoteData
     override fun getMoviePopular(): Flow<PagingData<Movie>> = dataSource.getMoviePopular().flowOn(IO)
     override fun getMovieImages(moveId: Int): Flow<Image> = dataSource.getMovieImages(moveId).flowOn(IO)
     override fun getProfileDetails(): Flow<ProfileDetails> = dataSource.getProfileDetails().flowOn(IO)
+    override fun getFavorites(): Flow<PagingData<Movie>> = dataSource.getFavorites().flowOn(IO)
+    override fun getWatchlist(): Flow<PagingData<Movie>> = dataSource.getWatchlist().flowOn(IO)
 }
