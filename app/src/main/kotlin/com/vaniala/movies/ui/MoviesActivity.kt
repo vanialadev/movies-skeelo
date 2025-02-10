@@ -82,12 +82,13 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
 
     val isShowBackNavigation = when (currentRoute) {
         HomeScreenDestination.route, ProfileScreenDestination.route -> false
-        else -> false
+        else -> true
     }
     val isShowBottomAppBar = when (currentRoute) {
         HomeScreenDestination.route, ProfileScreenDestination.route -> true
         else -> false
     }
+
     MovieApp(
         bottomAppBarItemSelected = selectedBottomAppBarItem,
         isShowBackNavigation = isShowBackNavigation,
@@ -99,7 +100,6 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
         onBottomAppBarItemSelectedChange = { item ->
             navController.navigateToBottomAppBarItem(item)
         },
-        isShowTopBar = isShowBottomAppBar,
         topAppBarTitle = {
             when (currentRoute) {
                 ProfileScreenDestination.route -> Text(stringResource(R.string.profile_title))
@@ -122,33 +122,30 @@ fun MovieApp(
     isShowBackNavigation: Boolean = false,
     isShowBottomAppBar: Boolean = false,
     bottomAppBarItemSelected: BottomAppBarItem = bottomAppBarItems.first(),
-    isShowTopBar: Boolean = false,
     onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            if (isShowTopBar) {
-                TopAppBar(
-                    title = {
-                        topAppBarTitle()
-                    },
-                    navigationIcon = {
-                        if (isShowBackNavigation) {
-                            Icon(
-                                Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = null,
-                                Modifier
-                                    .padding(16.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        onBackNavigationClick()
-                                    },
-                            )
-                        }
-                    },
-                )
-            }
+            TopAppBar(
+                title = {
+                    topAppBarTitle()
+                },
+                navigationIcon = {
+                    if (isShowBackNavigation) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            Modifier
+                                .padding(16.dp)
+                                .clip(CircleShape)
+                                .clickable {
+                                    onBackNavigationClick()
+                                },
+                        )
+                    }
+                },
+            )
         },
         bottomBar = {
             if (isShowBottomAppBar) {
