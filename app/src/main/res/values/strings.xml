@@ -6,4 +6,7 @@
     <string name="favorites">Favoritos</string>
     <string name="watchlist">Ver Depois</string>
     <string name="details">Detalhes</string>
+    <string name="remove_favorites">Remover dos Favoritos</string>
+    <string name="favorite">Favoritar</string>
+    <string name="remove_watchlist">Remover da Ver Depois</string>
 </resources>

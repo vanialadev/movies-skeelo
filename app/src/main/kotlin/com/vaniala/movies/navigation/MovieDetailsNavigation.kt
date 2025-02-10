@@ -1,8 +1,11 @@
 package com.vaniala.movies.navigation
 
+import android.widget.Toast
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,6 +16,7 @@ import androidx.navigation.navArgument
 import com.vaniala.movies.navigation.ScreensDestinations.MovieDetailsScreenDestination
 import com.vaniala.movies.ui.screens.moviedetails.MovieDetailsScreen
 import com.vaniala.movies.ui.screens.moviedetails.MovieDetailsViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
@@ -27,12 +31,32 @@ fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
     ) { backStackEntry ->
         backStackEntry.arguments?.getInt(MovieDetailsScreenDestination.argument)?.let { id ->
             Timber.d("id: $id")
+            val context = LocalContext.current
             val viewModel = hiltViewModel<MovieDetailsViewModel>()
             val uiState by viewModel.uiState.collectAsState()
+            val scope = rememberCoroutineScope()
             LaunchedEffect(Unit) {
                 viewModel.getMovieDetails(id)
             }
-            MovieDetailsScreen(uiState)
+            LaunchedEffect(uiState.messageError) {
+                uiState.messageError?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            MovieDetailsScreen(
+                uiState,
+                toggleFavorite = {
+                    scope.launch {
+                        viewModel.toggleFavorite(id, it)
+                    }
+                },
+                toggleWatchlist = {
+                    scope.launch {
+                        viewModel.toggleWatchlist(id, it)
+                    }
+                },
+            )
         } ?: LaunchedEffect(Unit) {
             onPopBackStack()
         }
