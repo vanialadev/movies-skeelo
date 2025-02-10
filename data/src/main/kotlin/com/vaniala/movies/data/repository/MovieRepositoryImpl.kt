@@ -2,6 +2,9 @@ package com.vaniala.movies.data.repository
 
 import androidx.paging.PagingData
 import com.vaniala.movies.data.remote.datasource.RemoteDataSource
+import com.vaniala.movies.domain.model.AddFavorite
+import com.vaniala.movies.domain.model.AddWatchListOrFavorite
+import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
@@ -19,4 +22,11 @@ class MovieRepositoryImpl @Inject constructor(private val dataSource: RemoteData
     override fun getFavorites(): Flow<PagingData<Movie>> = dataSource.getFavorites().flowOn(IO)
     override fun getWatchlist(): Flow<PagingData<Movie>> = dataSource.getWatchlist().flowOn(IO)
     override fun getMovieDetails(moveId: Long): Flow<MovieDetails> = dataSource.getMovieDetails(moveId).flowOn(IO)
+    override fun addFavorites(favorite: AddFavorite): Flow<AddWatchListOrFavorite> = dataSource.addFavorites(
+        favorite,
+    ).flowOn(IO)
+
+    override fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite> = dataSource.addWatchlist(
+        watchlist,
+    )
 }

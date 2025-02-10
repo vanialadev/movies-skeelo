@@ -6,10 +6,14 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.vaniala.movies.data.BuildConfig
 import com.vaniala.movies.data.mappers.Mappers.toModel
+import com.vaniala.movies.data.mappers.Mappers.toRequest
 import com.vaniala.movies.data.remote.paging.FavoritePaging
 import com.vaniala.movies.data.remote.paging.MoviePaging
 import com.vaniala.movies.data.remote.paging.WatchlistPaging
 import com.vaniala.movies.data.remote.service.MovieService
+import com.vaniala.movies.domain.model.AddFavorite
+import com.vaniala.movies.domain.model.AddWatchListOrFavorite
+import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
@@ -90,5 +94,23 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
 
     override fun getMovieDetails(moveId: Long): Flow<MovieDetails> = flow {
         emit(movieService.getMovieDetails(moveId).toModel())
+    }.flowOn(IO)
+
+    override fun addFavorites(favorite: AddFavorite): Flow<AddWatchListOrFavorite> = flow {
+        val addWatchListOrFavoriteResponse = movieService.addFavorite(
+            accountId = BuildConfig.ACOUNT_ID,
+            sessionId = BuildConfig.SESSION_ID,
+            body = favorite.toRequest(),
+        )
+        emit(addWatchListOrFavoriteResponse.toModel())
+    }.flowOn(IO)
+
+    override fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite> = flow {
+        val addWatchListOrFavoriteResponse = movieService.addWatchlist(
+            accountId = BuildConfig.ACOUNT_ID,
+            sessionId = BuildConfig.SESSION_ID,
+            body = watchlist.toRequest(),
+        )
+        emit(addWatchListOrFavoriteResponse.toModel())
     }.flowOn(IO)
 }
