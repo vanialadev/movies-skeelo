@@ -17,7 +17,7 @@ import com.vaniala.movies.R
 import com.vaniala.movies.ui.utils.Constants.IMAGE_URL
 
 @Composable
-fun AsyncImagePoster(url: String, modifier: Modifier = Modifier) {
+fun AsyncImagePoster(url: String?, modifier: Modifier = Modifier) {
     Box {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)

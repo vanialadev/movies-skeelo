@@ -25,12 +25,12 @@ fun MovieItem(movie: Movie) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            text = movie.title,
+            text = movie.title ?: String(),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
 
-        AsyncImagePoster(movie.images.posters)
+        AsyncImagePoster(movie.images?.posters)
     }
 }
 
