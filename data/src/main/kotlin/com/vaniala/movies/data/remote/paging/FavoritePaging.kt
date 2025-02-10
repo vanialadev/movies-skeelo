@@ -18,7 +18,7 @@ class FavoritePaging(private val service: MovieService) : PagingSource<Int, Movi
             val response = service.getFavorites(accountId = accountId, sessionId = sessionId, page = position)
             val movies = response.results
             val totalPages = response.totalPages ?: STARTING_PAGE_INDEX
-            val nextKey = if (position.toLong() == totalPages) null else position.plus(1)
+            val nextKey = if (position >= totalPages.toInt()) null else position.plus(1)
 
             Timber.d("$nextKey")
             LoadResult.Page(
