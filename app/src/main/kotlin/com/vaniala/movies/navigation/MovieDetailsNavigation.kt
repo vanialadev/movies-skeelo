@@ -20,12 +20,12 @@ fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
         route = MovieDetailsScreenDestination.routeWithArgs,
         arguments = listOf(
             navArgument(MovieDetailsScreenDestination.argument) {
-                defaultValue = 0L
-                type = NavType.LongType
+                defaultValue = 0
+                type = NavType.IntType
             },
         ),
     ) { backStackEntry ->
-        backStackEntry.arguments?.getLong(MovieDetailsScreenDestination.argument)?.let { id ->
+        backStackEntry.arguments?.getInt(MovieDetailsScreenDestination.argument)?.let { id ->
             Timber.d("id: $id")
             val viewModel = hiltViewModel<MovieDetailsViewModel>()
             val uiState by viewModel.uiState.collectAsState()
