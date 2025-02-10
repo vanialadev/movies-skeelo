@@ -157,11 +157,11 @@
 
 <div>
   <ul>
-    <li>32 number of properties</li>
-    <li>23 number of functions</li>
-    <li>6 number of classes</li>
+    <li>37 number of properties</li>
+    <li>27 number of functions</li>
+    <li>8 number of classes</li>
     <li>8 number of packages</li>
-    <li>18 number of kt files</li>
+    <li>21 number of kt files</li>
   </ul>
 </div>
 
@@ -170,25 +170,121 @@
 
 <div>
   <ul>
-    <li>688 lines of code (loc)</li>
-    <li>595 source lines of code (sloc)</li>
-    <li>325 logical lines of code (lloc)</li>
+    <li>875 lines of code (loc)</li>
+    <li>767 source lines of code (sloc)</li>
+    <li>416 logical lines of code (lloc)</li>
     <li>32 comment lines of code (cloc)</li>
-    <li>39 cyclomatic complexity (mcc)</li>
+    <li>43 cyclomatic complexity (mcc)</li>
     <li>23 cognitive complexity</li>
-    <li>0 number of total code smells</li>
-    <li>5% comment source ratio</li>
-    <li>120 mcc per 1,000 lloc</li>
-    <li>0 code smells per 1,000 lloc</li>
+    <li>7 number of total code smells</li>
+    <li>4% comment source ratio</li>
+    <li>103 mcc per 1,000 lloc</li>
+    <li>16 code smells per 1,000 lloc</li>
   </ul>
 </div>
 
 
 <h2>Findings</h2>
-<div>Total: 0</div>
+<div>Total: 7
+  <h3>formatting: 5</h3>
+  <details id="ArgumentListWrapping" open="open">
+    <summary class="rule-container"><span class="rule">ArgumentListWrapping: 1 </span><span class="description">Reports incorrect argument list wrapping</span></summary>
+<a href="https://detekt.dev/docs/rules/formatting#argumentlistwrapping">Documentation</a>
+    <ul>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:53:38</span><span class="message">Argument should be on a separate line (unless all arguments can fit a single line)</span>
+        <pre><code><span class="lineno">  50 </span>            AsyncImage(
+<span class="lineno">  51 </span>                modifier = Modifier
+<span class="lineno">  52 </span>                    .height(146.dp)
+<span class="lineno">  53 </span>                contentDescription = <span class="error">n</span>ull,
+<span class="lineno">  54 </span>                contentScale = ContentScale.Crop
+<span class="lineno">  55 </span>            )
+<span class="lineno">  56 </span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <details id="Indentation" open="open">
+    <summary class="rule-container"><span class="rule">Indentation: 1 </span><span class="description">Reports mis-indented code</span></summary>
+<a href="https://detekt.dev/docs/rules/formatting#indentation">Documentation</a>
+    <ul>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:53:1</span><span class="message">Unexpected indentation (16) (should be 20)</span>
+        <pre><code><span class="lineno">  50 </span>            AsyncImage(
+<span class="lineno">  51 </span>                modifier = Modifier
+<span class="lineno">  52 </span>                    .height(146.dp)
+<span class="lineno">  53 </span><span class="error"> </span>               contentDescription = null,
+<span class="lineno">  54 </span>                contentScale = ContentScale.Crop
+<span class="lineno">  55 </span>            )
+<span class="lineno">  56 </span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <details id="NoUnusedImports" open="open">
+    <summary class="rule-container"><span class="rule">NoUnusedImports: 3 </span><span class="description">Detects unused imports</span></summary>
+<a href="https://detekt.dev/docs/rules/formatting#nounusedimports">Documentation</a>
+    <ul>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:3:1</span><span class="message">Unused import</span>
+        <pre><code><span class="lineno">   1 </span>package com.vaniala.movies.ui.screens.profile
+<span class="lineno">   2 </span>
+<span class="lineno">   3 </span><span class="error">i</span>mport androidx.compose.foundation.Image
+<span class="lineno">   4 </span>import androidx.compose.foundation.layout.Arrangement
+<span class="lineno">   5 </span>import androidx.compose.foundation.layout.Column
+<span class="lineno">   6 </span>import androidx.compose.foundation.layout.Spacer
+</code></pre>
+      </li>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:12:1</span><span class="message">Unused import</span>
+        <pre><code><span class="lineno">   9 </span>import androidx.compose.foundation.layout.height
+<span class="lineno">  10 </span>import androidx.compose.foundation.layout.heightIn
+<span class="lineno">  11 </span>import androidx.compose.foundation.layout.padding
+<span class="lineno">  12 </span><span class="error">i</span>mport androidx.compose.foundation.layout.size
+<span class="lineno">  13 </span>import androidx.compose.foundation.shape.RoundedCornerShape
+<span class="lineno">  14 </span>import androidx.compose.foundation.text.KeyboardActions
+<span class="lineno">  15 </span>import androidx.compose.foundation.text.KeyboardOptions
+</code></pre>
+      </li>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:30:1</span><span class="message">Unused import</span>
+        <pre><code><span class="lineno">  27 </span>import androidx.compose.ui.focus.FocusDirection
+<span class="lineno">  28 </span>import androidx.compose.ui.layout.ContentScale
+<span class="lineno">  29 </span>import androidx.compose.ui.platform.LocalFocusManager
+<span class="lineno">  30 </span><span class="error">i</span>mport androidx.compose.ui.res.painterResource
+<span class="lineno">  31 </span>import androidx.compose.ui.res.stringResource
+<span class="lineno">  32 </span>import androidx.compose.ui.text.input.ImeAction
+<span class="lineno">  33 </span>import androidx.compose.ui.tooling.preview.Preview
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <h3>style: 2</h3>
+  <details id="UnusedParameter" open="open">
+    <summary class="rule-container"><span class="rule">UnusedParameter: 2 </span><span class="description">Function parameter is unused and should be removed.</span></summary>
+<a href="https://detekt.dev/docs/rules/style#unusedparameter">Documentation</a>
+    <ul>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:40:19</span><span class="message">Function parameter `state` is unused.</span>
+        <pre><code><span class="lineno">  37 </span>@OptIn(ExperimentalComposeUiApi::class)
+<span class="lineno">  38 </span>@Suppress(&quot;LongMethod&quot;)
+<span class="lineno">  39 </span>@Composable
+<span class="lineno">  40 </span>fun ProfileScreen(<span class="error">state</span>: ProfileUiState = ProfileUiState(), onBack: () -&gt; Unit = {}) {
+<span class="lineno">  41 </span>    Column(Modifier.fillMaxSize()) {
+<span class="lineno">  42 </span>        Column(
+<span class="lineno">  43 </span>            horizontalAlignment = Alignment.CenterHorizontally,
+</code></pre>
+      </li>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/ui/screens/profile/ProfileScreen.kt:40:61</span><span class="message">Function parameter `onBack` is unused.</span>
+        <pre><code><span class="lineno">  37 </span>@OptIn(ExperimentalComposeUiApi::class)
+<span class="lineno">  38 </span>@Suppress(&quot;LongMethod&quot;)
+<span class="lineno">  39 </span>@Composable
+<span class="lineno">  40 </span>fun ProfileScreen(state: ProfileUiState = ProfileUiState(), <span class="error">onBack</span>: () -&gt; Unit = {}) {
+<span class="lineno">  41 </span>    Column(Modifier.fillMaxSize()) {
+<span class="lineno">  42 </span>        Column(
+<span class="lineno">  43 </span>            horizontalAlignment = Alignment.CenterHorizontally,
+</code></pre>
+      </li>
+    </ul>
+  </details>
+</div>
 
 
-generated with <a href="https://detekt.dev/">detekt version 1.23.7</a> on 2025-02-09 19:12:47 UTC.
+generated with <a href="https://detekt.dev/">detekt version 1.23.7</a> on 2025-02-09 20:14:28 UTC.
 
 </body>
 </html>
