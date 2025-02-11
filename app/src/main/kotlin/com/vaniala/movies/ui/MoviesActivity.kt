@@ -23,10 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -45,10 +43,13 @@ import com.vaniala.movies.ui.components.MovieBottomAppBar
 import com.vaniala.movies.ui.components.bottomAppBarItems
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoviesActivity : ComponentActivity() {
+    @Inject
+    lateinit var themePreferences: ThemePreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -57,8 +58,6 @@ class MoviesActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { keepSplashScreen }
 
         setContent {
-            val context = LocalContext.current
-            val themePreferences = remember { ThemePreferences(context) }
             val isDarkTheme by themePreferences.isDarkTheme.collectAsState(initial = false)
             val navController = rememberNavController()
             val currentBackStack by navController.currentBackStackEntryAsState()
@@ -81,13 +80,6 @@ class MoviesActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesApp(navController: NavHostController) {
-    LaunchedEffect(Unit) {
-        navController.addOnDestinationChangedListener { _, _, _ ->
-            val routes = navController.backQueue.map { it.destination.route }
-            Timber.i("routes: $routes")
-        }
-    }
-
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -101,67 +93,83 @@ fun MoviesApp(navController: NavHostController) {
         ProfileScreenDestination.route,
     )
 
+    MoviesApp(
+        bottomAppBarItemSelected = bottomAppBarItemSelected,
+        isShowBottomAppBar = isShowBottomAppBar,
+        onBottomAppBarItemSelectedChange = {
+            navController.navigateToBottomAppBarItem(it)
+        },
+        goToSettings = {
+            navController.navigateToSettings()
+        },
+        onBackNavigationClick = {
+            navController.navigateUp()
+        },
+        topAppBarTitle = {
+            when (currentRoute) {
+                HomeScreenDestination.route -> {
+                    Text(text = stringResource(R.string.app_name))
+                }
+
+                ProfileScreenDestination.route -> {
+                    Text(text = stringResource(R.string.profile_title))
+                }
+            }
+        },
+    ) {
+        MovieNavHost(navController)
+    }
+}
+
+@Suppress("LongMethod")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MoviesApp(
+    isShowBottomAppBar: Boolean = false,
+    bottomAppBarItemSelected: BottomAppBarItem = bottomAppBarItems.first(),
+    onBottomAppBarItemSelectedChange: (BottomAppBarItem) -> Unit = {},
+    goToSettings: () -> Unit = {},
+    onBackNavigationClick: () -> Unit = {},
+    topAppBarTitle: @Composable () -> Unit = {},
+    content: @Composable () -> Unit = {},
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            when (currentRoute) {
-                HomeScreenDestination.route -> {
-                    TopAppBar(
-                        title = { Text(text = stringResource(R.string.app_name)) },
-                        actions = {
-                            IconButton(onClick = { navController.navigateToSettings() }) {
-                                Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = stringResource(R.string.settings),
-                                )
-                            }
-                        },
+            TopAppBar(
+                title = {
+                    topAppBarTitle()
+                },
+                actions = {
+                    IconButton(onClick = goToSettings) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = stringResource(R.string.settings),
+                        )
+                    }
+                },
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        Modifier
+                            .padding(16.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                onBackNavigationClick()
+                            },
                     )
-                }
-
-                ProfileScreenDestination.route -> {
-                    TopAppBar(
-                        title = { Text(text = stringResource(R.string.profile_title)) },
-                        actions = {
-                            IconButton(onClick = { navController.navigateToSettings() }) {
-                                Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = stringResource(R.string.settings),
-                                )
-                            }
-                        },
-                    )
-                }
-
-                else -> {
-                    TopAppBar(
-                        title = { },
-                        navigationIcon = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = null,
-                                Modifier
-                                    .padding(16.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        navController.navigateUp()
-                                    },
-                            )
-                        },
-                    )
-                }
-            }
+                },
+            )
         },
         bottomBar = {
             if (isShowBottomAppBar) {
                 MovieBottomAppBar(
                     selectedItem = bottomAppBarItemSelected,
                     items = bottomAppBarItems,
-                    onItemClick = { item ->
-                        navController.navigateToBottomAppBarItem(item)
-                    },
+                    onItemClick = onBottomAppBarItemSelectedChange,
                 )
             }
         },
@@ -172,7 +180,7 @@ fun MoviesApp(navController: NavHostController) {
                 .padding(innerPadding),
             color = MaterialTheme.colorScheme.background,
         ) {
-            MovieNavHost(navController)
+            content()
         }
     }
 }
