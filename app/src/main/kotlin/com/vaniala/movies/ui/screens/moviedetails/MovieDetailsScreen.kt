@@ -44,7 +44,6 @@ import com.vaniala.movies.R
 import com.vaniala.movies.domain.model.Genres
 import com.vaniala.movies.domain.model.MovieAllDetails
 import com.vaniala.movies.domain.model.MovieDetails
-import com.vaniala.movies.ui.components.ToggleButton
 import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_ORIGINAL
 import kotlin.random.Random
 
@@ -191,13 +190,11 @@ fun MovieDetailsScreen(
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(text = "Recomendacoes", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-
             }
         }
     }
-
-    class ToggleButton(val icon: ImageVector, val action: () -> Unit)
 }
+class ToggleButton(val icon: ImageVector, val action: () -> Unit)
 
 @Preview(showBackground = true)
 @Composable

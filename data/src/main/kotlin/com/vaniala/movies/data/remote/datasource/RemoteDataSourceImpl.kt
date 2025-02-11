@@ -158,5 +158,4 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
             Timber.e(it)
         }
     //    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
-
 }
