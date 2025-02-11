@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -22,7 +24,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -35,18 +36,16 @@ import androidx.navigation.compose.rememberNavController
 import com.vaniala.movies.R
 import com.vaniala.movies.navigation.MovieNavHost
 import com.vaniala.movies.navigation.ScreensDestinations.HomeScreenDestination
-import com.vaniala.movies.navigation.ScreensDestinations.MovieDetailsScreenDestination
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
 import com.vaniala.movies.navigation.navigateToBottomAppBarItem
+import com.vaniala.movies.navigation.navigateToSettings
 import com.vaniala.movies.preferences.ThemePreferences
 import com.vaniala.movies.ui.components.BottomAppBarItem
 import com.vaniala.movies.ui.components.MovieBottomAppBar
-import com.vaniala.movies.ui.components.ThemeIcon
 import com.vaniala.movies.ui.components.bottomAppBarItems
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 const val DURATION = 1500L
@@ -64,7 +63,6 @@ class MoviesActivity : ComponentActivity() {
             val context = LocalContext.current
             val themePreferences = remember { ThemePreferences(context) }
             val isDarkTheme by themePreferences.isDarkTheme.collectAsState(initial = false)
-            val scope = rememberCoroutineScope()
 
             LaunchedEffect(Unit) {
                 delay(DURATION)
@@ -72,14 +70,7 @@ class MoviesActivity : ComponentActivity() {
             }
 
             MoviesTheme(darkTheme = isDarkTheme) {
-                MoviesApp(
-                    isDarkTheme = isDarkTheme,
-                    onThemeUpdate = { newTheme ->
-                        scope.launch {
-                            themePreferences.setDarkTheme(newTheme)
-                        }
-                    },
-                )
+                MoviesApp()
             }
         }
     }
@@ -88,11 +79,7 @@ class MoviesActivity : ComponentActivity() {
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoviesApp(
-    isDarkTheme: Boolean,
-    onThemeUpdate: (Boolean) -> Unit,
-    navController: NavHostController = rememberNavController(),
-) {
+fun MoviesApp(navController: NavHostController = rememberNavController()) {
     LaunchedEffect(Unit) {
         navController.addOnDestinationChangedListener { _, _, _ ->
             val routes = navController.backQueue.map { it.destination.route }
@@ -123,42 +110,46 @@ fun MoviesApp(
                     TopAppBar(
                         title = { Text(text = stringResource(R.string.app_name)) },
                         actions = {
-                            ThemeIcon(
-                                isDarkTheme = isDarkTheme,
-                                onThemeUpdated = { onThemeUpdate(!isDarkTheme) },
-                            )
+                            IconButton(onClick = { navController.navigateToSettings() }) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = stringResource(R.string.settings),
+                                )
+                            }
                         },
                     )
                 }
+
                 ProfileScreenDestination.route -> {
                     TopAppBar(
                         title = { Text(text = stringResource(R.string.profile_title)) },
                         actions = {
-                            ThemeIcon(
-                                isDarkTheme = isDarkTheme,
-                                onThemeUpdated = { onThemeUpdate(!isDarkTheme) },
-                            )
+                            IconButton(onClick = { navController.navigateToSettings() }) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = stringResource(R.string.settings),
+                                )
+                            }
                         },
                     )
                 }
+
                 else -> {
-                    if (currentRoute?.startsWith(MovieDetailsScreenDestination.route) == true) {
-                        TopAppBar(
-                            title = { },
-                            navigationIcon = {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = null,
-                                    Modifier
-                                        .padding(16.dp)
-                                        .clip(CircleShape)
-                                        .clickable {
-                                            navController.navigateUp()
-                                        },
-                                )
-                            },
-                        )
-                    }
+                    TopAppBar(
+                        title = { },
+                        navigationIcon = {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null,
+                                Modifier
+                                    .padding(16.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        navController.navigateUp()
+                                    },
+                            )
+                        },
+                    )
                 }
             }
         },

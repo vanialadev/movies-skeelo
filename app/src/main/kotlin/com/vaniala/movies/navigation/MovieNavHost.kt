@@ -35,6 +35,7 @@ fun MovieNavHost(navController: NavHostController = rememberNavController()) {
                 navController.navigateToMovieDetails(id)
             },
         )
+        settingsScreen()
     }
 }
 
