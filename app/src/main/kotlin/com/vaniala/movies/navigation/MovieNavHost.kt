@@ -31,6 +31,9 @@ fun MovieNavHost(navController: NavHostController = rememberNavController()) {
             onPopBackStack = {
                 navController.navigateUp()
             },
+            onNavigateToMovieDetails = { id ->
+                navController.navigateToMovieDetails(id)
+            },
         )
     }
 }

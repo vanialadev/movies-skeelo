@@ -19,7 +19,7 @@ import com.vaniala.movies.ui.screens.moviedetails.MovieDetailsViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
+fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit, onNavigateToMovieDetails: (Int) -> Unit) {
     composable(
         route = MovieDetailsScreenDestination.routeWithArgs,
         arguments = listOf(
@@ -56,6 +56,7 @@ fun NavGraphBuilder.movieDetailsScreen(onPopBackStack: () -> Unit) {
                         viewModel.toggleWatchlist(id, it)
                     }
                 },
+                onMovieClick = onNavigateToMovieDetails,
             )
         } ?: LaunchedEffect(Unit) {
             onPopBackStack()

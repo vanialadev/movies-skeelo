@@ -8,6 +8,8 @@ import com.vaniala.movies.domain.model.AddWatchlist
 import com.vaniala.movies.domain.usecase.AddFavoriteUseCase
 import com.vaniala.movies.domain.usecase.AddWatchlistUseCase
 import com.vaniala.movies.domain.usecase.GetAllMovieDetailsUseCase
+import com.vaniala.movies.domain.usecase.GetMovieRecommendationsUseCase
+import com.vaniala.movies.ui.utils.Constants.SIZE_RECOMMENDATIONS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getAllMovieDetailsUseCase: GetAllMovieDetailsUseCase,
     private val addToFavoriteUseCase: AddFavoriteUseCase,
     private val addWatchlistUseCase: AddWatchlistUseCase,
+    private val getMovieRecommendationsUseCase: GetMovieRecommendationsUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MovieDetailsUiState())
     val uiState = _uiState.asStateFlow()
@@ -28,8 +31,23 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             getAllMovieDetailsUseCase(id)
                 .collect { movieAllDetails ->
-                    _uiState.value = _uiState.value.copy(movieAllDetails = movieAllDetails)
+                    _uiState.value = _uiState.value.copy(
+                        movieAllDetails = movieAllDetails,
+                        isLoading = false,
+                    )
+                    getMovieRecommendations(id)
                     Timber.d("$movieAllDetails")
+                }
+        }
+    }
+
+    private fun getMovieRecommendations(id: Int) {
+        viewModelScope.launch {
+            getMovieRecommendationsUseCase(id)
+                .collect { recommendations ->
+                    _uiState.value = _uiState.value.copy(
+                        recommendations = recommendations.take(SIZE_RECOMMENDATIONS),
+                    )
                 }
         }
     }
