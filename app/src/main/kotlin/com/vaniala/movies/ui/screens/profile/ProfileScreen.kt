@@ -50,6 +50,7 @@ import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.extensions.getTabTitle
 import com.vaniala.movies.ui.components.AsyncImageProfile
 import com.vaniala.movies.ui.components.GridMovies
+import com.vaniala.movies.ui.components.GridMoviesSkeleton
 import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_LARGE
 import kotlinx.coroutines.launch
 
@@ -166,23 +167,41 @@ fun HorizontalPageProfile(
     ) { index: Int ->
         when (index) {
             0 -> favoritesPaging?.let {
-                GridMovies(
-                    state.removingFavorites,
-                    favoritesPaging,
-                    onRemoveFavorite,
-                    onMovieClick,
-                )
+                LoadStates(it) {
+                    GridMovies(
+                        state.removingFavorites,
+                        favoritesPaging,
+                        onRemoveFavorite,
+                        onMovieClick,
+                    )
+                }
             }
 
             1 -> watchlistPaging?.let {
-                GridMovies(
-                    state.removingWatchlist,
-                    watchlistPaging,
-                    onRemoveWatchlist,
-                    onMovieClick,
-                )
+                LoadStates(it) {
+                    GridMovies(
+                        state.removingWatchlist,
+                        watchlistPaging,
+                        onRemoveWatchlist,
+                        onMovieClick,
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+fun LoadStates(paging: LazyPagingItems<Movie>, gridMovies: @Composable () -> Unit) {
+    when (paging.loadState.refresh) {
+        is LoadState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                GridMoviesSkeleton()
+            }
+        }
+
+        is LoadState.NotLoading -> gridMovies()
+        is LoadState.Error -> Text("Tratar Error")
     }
 }
 

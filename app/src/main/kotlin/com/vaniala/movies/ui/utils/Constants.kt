@@ -8,4 +8,5 @@ object Constants {
     const val GRAVATAR_URL = "https://gravatar.com/avatar/"
 
     const val TRIPLE_COLUMN = 3
+    const val SIZE_SKELETON = 9
 }
