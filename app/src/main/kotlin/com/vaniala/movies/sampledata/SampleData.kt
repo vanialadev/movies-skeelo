@@ -3,6 +3,7 @@ package com.vaniala.movies.sampledata
 import androidx.paging.PagingData
 import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 val sampleListMovie = listOf(
@@ -47,5 +48,7 @@ val sampleListMovie = listOf(
         id = 5,
     ),
 )
+
+val sampleMoviePageDataFlow: Flow<PagingData<Movie>> = flowOf(PagingData.from(sampleListMovie))
 
 val sampleMoviePageData = flowOf(PagingData.from(sampleListMovie))

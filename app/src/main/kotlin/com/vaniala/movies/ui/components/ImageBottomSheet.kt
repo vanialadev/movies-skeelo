@@ -40,7 +40,7 @@ fun ImageBottomSheet(
             ) {
                 TextButton(
                     onClick = {
-                        onShare
+                        onShare()
                         onDismiss()
                     },
                     modifier = Modifier

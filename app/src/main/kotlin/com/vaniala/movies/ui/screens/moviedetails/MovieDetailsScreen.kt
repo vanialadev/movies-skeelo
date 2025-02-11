@@ -262,8 +262,9 @@ fun MovieDetailsScreen(
                         ) {
                             items(uiState.recommendations) { movie ->
                                 AsyncImagePoster(
+                                    url =
                                     "$IMAGE_URL_ORIGINAL${movie.posterPath}",
-                                    Modifier
+                                    modifier = Modifier
                                         .width(120.dp)
                                         .height(180.dp)
                                         .clip(RoundedCornerShape(8.dp))

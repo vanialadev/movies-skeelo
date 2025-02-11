@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vaniala.movies.domain.model.Movie
+import com.vaniala.movies.extensions.toOneDecimal
 
 @Composable
 fun MovieItem(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
@@ -30,7 +31,7 @@ fun MovieItem(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
             overflow = TextOverflow.Ellipsis,
         )
 
-        AsyncImagePoster(movie.images?.posters)
+        AsyncImagePoster(movie.images?.posters, movie.voteAverage?.toOneDecimal())
     }
 }
 

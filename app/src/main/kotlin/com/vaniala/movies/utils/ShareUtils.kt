@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
-import androidx.core.content.getSystemService
 import com.vaniala.movies.R
 
 fun Context.shareImage(url: String) {

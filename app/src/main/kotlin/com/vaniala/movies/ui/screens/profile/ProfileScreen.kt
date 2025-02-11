@@ -50,6 +50,7 @@ import coil.compose.AsyncImage
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.ProfileDetails
 import com.vaniala.movies.extensions.getTabTitle
+import com.vaniala.movies.sampledata.sampleMoviePageDataFlow
 import com.vaniala.movies.ui.components.AsyncImageProfile
 import com.vaniala.movies.ui.components.GridMovies
 import com.vaniala.movies.ui.components.GridMoviesSkeleton
@@ -253,5 +254,10 @@ fun MovieWithRemove(onRemove: (Int, LazyPagingItems<Movie>) -> Unit, movie: Movi
 @Preview(showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen(ProfileUiState(profileDetails = ProfileDetails(username = "vaniala")))
+    ProfileScreen(
+        ProfileUiState(
+            profileDetails = ProfileDetails(username = "vaniala"),
+            favoritesPagingData = sampleMoviePageDataFlow,
+        ),
+    )
 }
