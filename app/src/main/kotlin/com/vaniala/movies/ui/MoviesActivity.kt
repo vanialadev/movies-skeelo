@@ -23,6 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
@@ -51,27 +53,30 @@ class MoviesActivity : ComponentActivity() {
     @Inject
     lateinit var themePreferences: ThemePreferences
 
+    private var keepSplashScreen by mutableStateOf(true)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        var keepSplashScreen = true
         splashScreen.setKeepOnScreenCondition { keepSplashScreen }
 
         setContent {
-            val isDarkTheme by themePreferences.isDarkTheme.collectAsState(initial = false)
+            val isDarkTheme by themePreferences.isDarkTheme.collectAsState(initial = null)
             val navController = rememberNavController()
             val currentBackStack by navController.currentBackStackEntryAsState()
             val currentRoute = currentBackStack?.destination?.route
 
-            LaunchedEffect(currentRoute) {
-                if (currentRoute == HomeScreenDestination.route) {
+            LaunchedEffect(isDarkTheme, currentRoute) {
+                if (isDarkTheme != null && currentRoute == HomeScreenDestination.route) {
                     keepSplashScreen = false
                 }
             }
 
-            MoviesTheme(darkTheme = isDarkTheme) {
-                MoviesApp(navController)
+            isDarkTheme?.let { darkTheme ->
+                MoviesTheme(darkTheme = darkTheme) {
+                    MoviesApp(navController)
+                }
             }
         }
     }
