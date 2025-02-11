@@ -63,7 +63,7 @@ fun MovieDetailsSkeleton() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(350.dp)
+                .height(220.dp)
                 .background(brush),
         )
 

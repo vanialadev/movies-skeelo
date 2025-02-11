@@ -81,10 +81,10 @@ fun MovieDetailsScreen(
                     contentDescription = null,
                     Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(220.dp)
                         .clip(RoundedCornerShape(2.dp)),
                     placeholder = ColorPainter(Color.Gray),
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillWidth,
                 )
                 Row(
                     modifier = Modifier
