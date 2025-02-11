@@ -6,7 +6,6 @@ import com.vaniala.movies.data.remote.model.MovieDetailsResponse
 import com.vaniala.movies.data.remote.model.MovieResponse
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.model.MovieDetails
-
 object TestData {
     val movieDetailsResponse = MovieDetailsResponse(
         id = 1,

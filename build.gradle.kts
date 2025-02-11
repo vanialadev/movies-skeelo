@@ -31,6 +31,6 @@ subprojects {
     afterEvaluate {
         tasks.findByName("preBuild")
             ?.dependsOn("ktlintFormat")
-//            ?.dependsOn("detekt")
+            ?.dependsOn("detekt")
     }
 }
