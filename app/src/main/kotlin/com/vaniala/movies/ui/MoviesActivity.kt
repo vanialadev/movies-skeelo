@@ -45,10 +45,7 @@ import com.vaniala.movies.ui.components.MovieBottomAppBar
 import com.vaniala.movies.ui.components.bottomAppBarItems
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import timber.log.Timber
-
-const val DURATION = 1500L
 
 @AndroidEntryPoint
 class MoviesActivity : ComponentActivity() {
@@ -63,14 +60,18 @@ class MoviesActivity : ComponentActivity() {
             val context = LocalContext.current
             val themePreferences = remember { ThemePreferences(context) }
             val isDarkTheme by themePreferences.isDarkTheme.collectAsState(initial = false)
+            val navController = rememberNavController()
+            val currentBackStack by navController.currentBackStackEntryAsState()
+            val currentRoute = currentBackStack?.destination?.route
 
-            LaunchedEffect(Unit) {
-                delay(DURATION)
-                keepSplashScreen = false
+            LaunchedEffect(currentRoute) {
+                if (currentRoute == HomeScreenDestination.route) {
+                    keepSplashScreen = false
+                }
             }
 
             MoviesTheme(darkTheme = isDarkTheme) {
-                MoviesApp()
+                MoviesApp(navController)
             }
         }
     }
@@ -79,7 +80,7 @@ class MoviesActivity : ComponentActivity() {
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoviesApp(navController: NavHostController = rememberNavController()) {
+fun MoviesApp(navController: NavHostController) {
     LaunchedEffect(Unit) {
         navController.addOnDestinationChangedListener { _, _, _ ->
             val routes = navController.backQueue.map { it.destination.route }
