@@ -157,11 +157,11 @@
 
 <div>
   <ul>
-    <li>89 number of properties</li>
-    <li>55 number of functions</li>
-    <li>13 number of classes</li>
-    <li>11 number of packages</li>
-    <li>33 number of kt files</li>
+    <li>100 number of properties</li>
+    <li>56 number of functions</li>
+    <li>15 number of classes</li>
+    <li>13 number of packages</li>
+    <li>37 number of kt files</li>
   </ul>
 </div>
 
@@ -170,25 +170,43 @@
 
 <div>
   <ul>
-    <li>2,309 lines of code (loc)</li>
-    <li>2,115 source lines of code (sloc)</li>
-    <li>1,278 logical lines of code (lloc)</li>
-    <li>37 comment lines of code (cloc)</li>
+    <li>2,428 lines of code (loc)</li>
+    <li>2,204 source lines of code (sloc)</li>
+    <li>1,311 logical lines of code (lloc)</li>
+    <li>47 comment lines of code (cloc)</li>
     <li>127 cyclomatic complexity (mcc)</li>
     <li>98 cognitive complexity</li>
-    <li>0 number of total code smells</li>
-    <li>1% comment source ratio</li>
-    <li>99 mcc per 1,000 lloc</li>
+    <li>1 number of total code smells</li>
+    <li>2% comment source ratio</li>
+    <li>96 mcc per 1,000 lloc</li>
     <li>0 code smells per 1,000 lloc</li>
   </ul>
 </div>
 
 
 <h2>Findings</h2>
-<div>Total: 0</div>
+<div>Total: 1
+  <h3>style: 1</h3>
+  <details id="UnusedPrivateProperty" open="open">
+    <summary class="rule-container"><span class="rule">UnusedPrivateProperty: 1 </span><span class="description">Property is unused and should be removed.</span></summary>
+<a href="https://detekt.dev/docs/rules/style#unusedprivateproperty">Documentation</a>
+    <ul>
+      <li><span class="location">/Users/realmeida/projects/estudos/android/desafio/movies/app/src/main/kotlin/com/vaniala/movies/MoviesViewModel.kt:14:55</span><span class="message">Private property `dataStore` is unused.</span>
+        <pre><code><span class="lineno">  11 </span>import kotlinx.coroutines.launch
+<span class="lineno">  12 </span>
+<span class="lineno">  13 </span>@HiltViewModel
+<span class="lineno">  14 </span>class MoviesViewModel @Inject constructor(private val <span class="error">dataStore</span>: DataStore&lt;Preferences&gt;) : ViewModel() {
+<span class="lineno">  15 </span>    private val _isLoading = MutableStateFlow(true)
+<span class="lineno">  16 </span>    val isLoading: StateFlow&lt;Boolean&gt; = _isLoading
+<span class="lineno">  17 </span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+</div>
 
 
-generated with <a href="https://detekt.dev/">detekt version 1.23.7</a> on 2025-02-11 04:25:18 UTC.
+generated with <a href="https://detekt.dev/">detekt version 1.23.7</a> on 2025-02-11 14:25:44 UTC.
 
 </body>
 </html>
