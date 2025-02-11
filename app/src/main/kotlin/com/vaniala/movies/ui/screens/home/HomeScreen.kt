@@ -2,7 +2,6 @@ package com.vaniala.movies.ui.screens.home
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,64 +28,89 @@ import com.vaniala.movies.R
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.sampledata.sampleMoviePageData
 import com.vaniala.movies.ui.components.MovieItem
+import com.vaniala.movies.ui.components.MovieListSectionSkeleton
 import com.vaniala.movies.ui.theme.titleSection
 
 @Composable
 fun HomeScreen(uiState: HomeUiState, onMovieClick: (Movie) -> Unit) {
-    val moviesPaging = uiState.moviesPagingData?.collectAsLazyPagingItems()
-    moviesPaging?.let {
-        val context = LocalContext.current
-        LaunchedEffect(key1 = moviesPaging.loadState) {
-            if (moviesPaging.loadState.refresh is LoadState.Error) {
-                Toast.makeText(
-                    context,
-                    "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
-                    Toast.LENGTH_LONG,
-                ).show()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+    ) {
+        uiState.popularMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
+            val context = LocalContext.current
+            LaunchedEffect(key1 = moviesPaging.loadState) {
+                if (moviesPaging.loadState.refresh is LoadState.Error) {
+                    Toast.makeText(
+                        context,
+                        "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }
             }
+
+            MovieList(
+                title = stringResource(R.string.movies_popular),
+                moviesPaging = moviesPaging,
+                onMovieClick = onMovieClick,
+            )
         }
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (moviesPaging.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            } else {
-                MovieList(moviesPaging, onMovieClick)
+        uiState.topRatedMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
+            val context = LocalContext.current
+            LaunchedEffect(key1 = moviesPaging.loadState) {
+                if (moviesPaging.loadState.refresh is LoadState.Error) {
+                    Toast.makeText(
+                        context,
+                        "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }
             }
+
+            MovieList(
+                title = stringResource(R.string.movies_top_rated),
+                moviesPaging = moviesPaging,
+                onMovieClick = onMovieClick,
+            )
         }
     }
 }
 
 @Composable
-private fun MovieList(moviesPaging: LazyPagingItems<Movie>, onMovieClick: (Movie) -> Unit = {}) {
-    Column {
-        Text(
-            text = stringResource(R.string.movies_popular),
-            style = titleSection,
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
-        LazyRow(
-            modifier = Modifier
-                .height(250.dp)
-                .padding(top = 8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            contentPadding = PaddingValues(horizontal = 16.dp),
-        ) {
-            items(moviesPaging.itemCount) { index ->
-                val movie = moviesPaging[index]
-                movie?.let {
-                    MovieItem(it, onMovieClick)
+private fun MovieList(title: String, moviesPaging: LazyPagingItems<Movie>, onMovieClick: (Movie) -> Unit = {}) {
+    if (moviesPaging.loadState.refresh !is LoadState.Loading) {
+        Column {
+            Text(
+                text = title,
+                style = titleSection,
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
+            LazyRow(
+                modifier = Modifier
+                    .height(250.dp)
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+            ) {
+                items(moviesPaging.itemCount) { index ->
+                    val movie = moviesPaging[index]
+                    movie?.let {
+                        MovieItem(it, onMovieClick)
+                    }
                 }
-            }
-            item {
-                if (moviesPaging.loadState.append is LoadState.Loading) {
-                    CircularProgressIndicator()
+                item {
+                    if (moviesPaging.loadState.append is LoadState.Loading) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }
+    } else {
+        MovieListSectionSkeleton()
     }
 }
 
@@ -92,5 +118,12 @@ private fun MovieList(moviesPaging: LazyPagingItems<Movie>, onMovieClick: (Movie
 @Composable
 fun MovieListPreview() {
     val sampleListMoviePageData = sampleMoviePageData.collectAsLazyPagingItems()
-    MovieList(sampleListMoviePageData)
+    MovieList(stringResource(R.string.movies_popular), sampleListMoviePageData)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MovieListLoadingPreview() {
+    val sampleListMoviePageData = sampleMoviePageData.collectAsLazyPagingItems()
+    MovieList(stringResource(R.string.movies_popular), sampleListMoviePageData)
 }

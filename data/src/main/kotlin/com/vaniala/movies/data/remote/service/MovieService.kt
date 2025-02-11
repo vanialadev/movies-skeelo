@@ -17,6 +17,7 @@ import com.vaniala.movies.data.utils.Constants.URL_MOVIE_IMAGES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_POPULAR
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_RECOMMENDATIONS
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_STATUS
+import com.vaniala.movies.data.utils.Constants.URL_MOVIE_TOP_RATED
 import com.vaniala.movies.data.utils.Constants.URL_PROFILE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_WATCHLIST_MOVIES
 import retrofit2.http.Body
@@ -26,7 +27,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieService {
-
     @GET(URL_MOVIE_POPULAR)
     suspend fun getMoviePopular(@Query("page") page: Int): ApiResponse<MovieResponse>
 
@@ -38,6 +38,9 @@ interface MovieService {
 
     @GET(URL_MOVIE_STATUS)
     suspend fun getMovieStatus(@Path("movie_id") moveId: Int): MovieStatusResponse
+
+    @GET(URL_MOVIE_TOP_RATED)
+    suspend fun getMovieTopRated(@Query("page") page: Int): ApiResponse<MovieResponse>
 
     @GET(URL_PROFILE_DETAILS)
     suspend fun getProfileDetails(@Path("account_id") accountId: Int): ProfileDetailsResponse

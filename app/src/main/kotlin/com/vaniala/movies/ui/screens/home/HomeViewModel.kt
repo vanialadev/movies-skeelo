@@ -9,6 +9,7 @@ import com.vaniala.movies.domain.model.Image
 import com.vaniala.movies.domain.model.Movie
 import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
 import com.vaniala.movies.domain.usecase.GetMoviePopularUseCase
+import com.vaniala.movies.domain.usecase.GetMovieTopRatedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -23,30 +24,53 @@ import timber.log.Timber
 class HomeViewModel @Inject constructor(
     private val getMoviePopularUseCase: GetMoviePopularUseCase,
     private val getMovieImagesUseCase: GetMovieImagesUseCase,
-
+    private val getMovieTopRatedUseCase: GetMovieTopRatedUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         getMovies()
+        getTopRatedMovies()
     }
 
     private fun getMovies() {
-        val moviesWithImages: Flow<PagingData<Movie>> = getMoviePopularUseCase().map { pagingData ->
-            pagingData.map { movie ->
-                try {
-                    val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
-                    movie.copy(images = image)
-                } catch (e: Exception) {
-                    Timber.e(" ${movie.id}: $e")
-                    movie.copy(images = Image())
+        val moviesWithImages: Flow<PagingData<Movie>> = getMoviePopularUseCase()
+            .map { pagingData ->
+                pagingData.map { movie ->
+                    try {
+                        val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
+                        movie.copy(images = image)
+                    } catch (e: Exception) {
+                        Timber.e(" ${movie.id}: $e")
+                        movie.copy(images = Image())
+                    }
                 }
             }
-        }.cachedIn(viewModelScope)
+            .cachedIn(viewModelScope)
 
         _uiState.update { state ->
-            state.copy(moviesPagingData = moviesWithImages)
+            state.copy(popularMoviesPagingData = moviesWithImages)
+        }
+    }
+
+    private fun getTopRatedMovies() {
+        val moviesWithImages: Flow<PagingData<Movie>> = getMovieTopRatedUseCase()
+            .map { pagingData ->
+                pagingData.map { movie ->
+                    try {
+                        val image = movie.id?.toInt()?.let { getMovieImagesUseCase(it).first() }
+                        movie.copy(images = image)
+                    } catch (e: Exception) {
+                        Timber.e(" ${movie.id}: $e")
+                        movie.copy(images = Image())
+                    }
+                }
+            }
+            .cachedIn(viewModelScope)
+
+        _uiState.update { state ->
+            state.copy(topRatedMoviesPagingData = moviesWithImages)
         }
     }
 }

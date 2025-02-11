@@ -9,6 +9,7 @@ object Constants {
     const val URL_MOVIE_DETAILS = "movie/{movie_id}?language=pt-BR"
     const val URL_MOVIE_STATUS = "movie/{movie_id}/account_states"
     const val URL_MOVIE_RECOMMENDATIONS = "movie/{movie_id}/recommendations?language=pt-BR"
+    const val URL_MOVIE_TOP_RATED = "movie/top_rated?language=pt-BR"
 
     const val URL_PROFILE_DETAILS = "account/{account_id}"
 

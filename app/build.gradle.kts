@@ -83,5 +83,7 @@ dependencies {
 
     implementation(libs.datastore)
 
+    implementation(libs.androidx.material.icons)
+
     debugImplementation(libs.leakcanary)
 }

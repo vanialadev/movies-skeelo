@@ -11,4 +11,5 @@
     <string name="genres">Gêneros</string>
     <string name="overview">Resumo</string>
     <string name="recommendations">Recomendações</string>
+    <string name="movies_top_rated">Filmes Mais Bem Avaliados</string>
 </resources>

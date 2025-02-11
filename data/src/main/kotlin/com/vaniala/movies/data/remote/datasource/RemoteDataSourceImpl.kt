@@ -9,6 +9,7 @@ import com.vaniala.movies.data.mappers.Mappers.toModel
 import com.vaniala.movies.data.mappers.Mappers.toRequest
 import com.vaniala.movies.data.remote.paging.FavoritePaging
 import com.vaniala.movies.data.remote.paging.MoviePaging
+import com.vaniala.movies.data.remote.paging.MovieTopRatedPaging
 import com.vaniala.movies.data.remote.paging.WatchlistPaging
 import com.vaniala.movies.data.remote.service.MovieService
 import com.vaniala.movies.domain.model.AddFavorite
@@ -28,8 +29,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-private const val PAGE_SIZE_MOVIE_POPULAR = 10
-private const val INITIAL_LOAD_SIZE_MOVIE_POPULAR = 15
+private const val PAGE_SIZE_MOVIE = 10
+private const val INITIAL_LOAD_SIZE_MOVIE = 15
 
 private const val PAGE_SIZE_PROFILE = 5
 private const val INITIAL_LOAD_SIZE_PROFILE = 10
@@ -37,9 +38,9 @@ private const val INITIAL_LOAD_SIZE_PROFILE = 10
 class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieService) : RemoteDataSource {
     override fun getMoviePopular(): Flow<PagingData<Movie>> = Pager(
         config = PagingConfig(
-            pageSize = PAGE_SIZE_MOVIE_POPULAR,
+            pageSize = PAGE_SIZE_MOVIE,
             enablePlaceholders = false,
-            initialLoadSize = INITIAL_LOAD_SIZE_MOVIE_POPULAR,
+            initialLoadSize = INITIAL_LOAD_SIZE_MOVIE,
         ),
         pagingSourceFactory = {
             MoviePaging(movieService)
@@ -60,6 +61,7 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
         Timber.e(it)
     }
 
+    //    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
     override fun getMovieDetails(moveId: Int): Flow<MovieDetails> = flow {
         emit(movieService.getMovieDetails(moveId).toModel())
     }.flowOn(IO)
@@ -157,5 +159,24 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
         .catch {
             Timber.e(it)
         }
-    //    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
+
+    override fun getMovieTopRated(): Flow<PagingData<Movie>> = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE_MOVIE,
+            enablePlaceholders = false,
+            initialLoadSize = INITIAL_LOAD_SIZE_MOVIE,
+        ),
+        pagingSourceFactory = {
+            MovieTopRatedPaging(movieService)
+        },
+    ).flow
+        .flowOn(IO)
+        .map { paging ->
+            paging.map { movies ->
+                movies.toModel()
+            }
+        }
+        .catch {
+            Timber.e(it)
+        }
 }
