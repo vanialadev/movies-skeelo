@@ -12,12 +12,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,47 +35,53 @@ import com.vaniala.movies.ui.theme.titleSection
 
 @Composable
 fun HomeScreen(uiState: HomeUiState, onMovieClick: (Movie) -> Unit) {
-    Column(
+    Surface(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .testTag("HomeScreen"),
     ) {
-        uiState.popularMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
-            val context = LocalContext.current
-            LaunchedEffect(key1 = moviesPaging.loadState) {
-                if (moviesPaging.loadState.refresh is LoadState.Error) {
-                    Toast.makeText(
-                        context,
-                        "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
-                        Toast.LENGTH_LONG,
-                    ).show()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+        ) {
+            uiState.popularMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
+                val context = LocalContext.current
+                LaunchedEffect(key1 = moviesPaging.loadState) {
+                    if (moviesPaging.loadState.refresh is LoadState.Error) {
+                        Toast.makeText(
+                            context,
+                            "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    }
                 }
+
+                MovieList(
+                    title = stringResource(R.string.movies_popular),
+                    moviesPaging = moviesPaging,
+                    onMovieClick = onMovieClick,
+                )
             }
 
-            MovieList(
-                title = stringResource(R.string.movies_popular),
-                moviesPaging = moviesPaging,
-                onMovieClick = onMovieClick,
-            )
-        }
-
-        uiState.topRatedMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
-            val context = LocalContext.current
-            LaunchedEffect(key1 = moviesPaging.loadState) {
-                if (moviesPaging.loadState.refresh is LoadState.Error) {
-                    Toast.makeText(
-                        context,
-                        "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
-                        Toast.LENGTH_LONG,
-                    ).show()
+            uiState.topRatedMoviesPagingData?.collectAsLazyPagingItems()?.let { moviesPaging ->
+                val context = LocalContext.current
+                LaunchedEffect(key1 = moviesPaging.loadState) {
+                    if (moviesPaging.loadState.refresh is LoadState.Error) {
+                        Toast.makeText(
+                            context,
+                            "Error: " + (moviesPaging.loadState.refresh as LoadState.Error).error.message,
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    }
                 }
-            }
 
-            MovieList(
-                title = stringResource(R.string.movies_top_rated),
-                moviesPaging = moviesPaging,
-                onMovieClick = onMovieClick,
-            )
+                MovieList(
+                    title = stringResource(R.string.movies_top_rated),
+                    moviesPaging = moviesPaging,
+                    onMovieClick = onMovieClick,
+                )
+            }
         }
     }
 }
