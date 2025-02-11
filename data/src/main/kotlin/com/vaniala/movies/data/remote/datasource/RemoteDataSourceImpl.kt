@@ -150,5 +150,13 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
             Timber.e(it)
         }
 
-//    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
+    override fun getMovieRecommendations(movieId: Int): Flow<List<Movie>> = flow {
+        val response = movieService.getMovieRecommendations(movieId)
+        emit(response.results?.map { it.toModel() } ?: emptyList())
+    }.flowOn(IO)
+        .catch {
+            Timber.e(it)
+        }
+    //    todo:v criar um funcao generica pro flow e catch ajeitar os try catchs
+
 }

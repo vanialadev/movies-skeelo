@@ -15,6 +15,7 @@ import com.vaniala.movies.data.utils.Constants.URL_FAVORITE_MOVIES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_IMAGES
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_POPULAR
+import com.vaniala.movies.data.utils.Constants.URL_MOVIE_RECOMMENDATIONS
 import com.vaniala.movies.data.utils.Constants.URL_MOVIE_STATUS
 import com.vaniala.movies.data.utils.Constants.URL_PROFILE_DETAILS
 import com.vaniala.movies.data.utils.Constants.URL_WATCHLIST_MOVIES
@@ -68,4 +69,7 @@ interface MovieService {
         @Query("session_id") sessionId: String,
         @Body body: AddWatchlistRequest,
     ): AddWatchListOrFavoriteResponse
+
+    @GET(URL_MOVIE_RECOMMENDATIONS)
+    suspend fun getMovieRecommendations(@Path("movie_id") movieId: Int): ApiResponse<MovieResponse>
 }

@@ -21,4 +21,5 @@ interface RemoteDataSource {
     fun getWatchlist(): Flow<PagingData<Movie>>
     fun addFavorites(favorite: AddFavorite): Flow<AddWatchListOrFavorite>
     fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite>
+    fun getMovieRecommendations(movieId: Int): Flow<List<Movie>>
 }

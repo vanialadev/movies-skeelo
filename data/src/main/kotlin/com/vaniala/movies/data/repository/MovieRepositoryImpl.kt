@@ -31,4 +31,8 @@ class MovieRepositoryImpl @Inject constructor(private val dataSource: RemoteData
     override fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite> = dataSource.addWatchlist(
         watchlist,
     )
+
+    override fun getMovieRecommendations(movieId: Int): Flow<List<Movie>> = dataSource.getMovieRecommendations(
+        movieId,
+    ).flowOn(IO)
 }
