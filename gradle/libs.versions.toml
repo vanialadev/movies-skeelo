@@ -1,5 +1,7 @@
 [versions]
 compileSdk = "35"
+kotlinxCoroutinesTest = "1.10.1"
+turbine = "1.2.0"
 versionCode = "1"
 targetSdk = "35"
 minSdk = "26"
@@ -28,7 +30,8 @@ timber = "5.0.1"
 splashscreen = "1.0.1"
 paging = "3.3.5"
 datastore = "1.1.2"
-mockkAndroid = "1.13.10"
+mockk = "1.13.10"
+activity = "1.10.0"
 
 [libraries]
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -73,7 +76,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockkAndroid" }
+mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

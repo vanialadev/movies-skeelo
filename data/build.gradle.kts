@@ -73,6 +73,12 @@ dependencies {
     implementation(libs.datastore)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+
+    testImplementation(libs.turbine)
+    testImplementation(libs.coroutines.test)
+
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

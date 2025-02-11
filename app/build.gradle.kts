@@ -101,5 +101,5 @@ dependencies {
     testImplementation(libs.hilt.testing)
     testAnnotationProcessor(libs.hilt.compiler)
 
-    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.mockk)
 }
