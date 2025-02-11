@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -83,35 +85,41 @@ fun ProfileScreen(
         }
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier =
-        Modifier
-            .fillMaxSize(),
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("ProfileScreen"),
     ) {
-        AsyncImageProfile(state.profileDetails?.avatar)
-        state.nameUpdate?.let { name ->
-            Text(
-                text = name,
-                fontSize = 24.sp,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyLarge,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier =
+            Modifier
+                .fillMaxSize(),
+        ) {
+            AsyncImageProfile(state.profileDetails?.avatar)
+            state.nameUpdate?.let { name ->
+                Text(
+                    text = name,
+                    fontSize = 24.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
+            val tabs = context.getTabTitle()
+            val pagerState = rememberPagerState(pageCount = { tabs.size })
+            Spacer(Modifier.height(16.dp))
+            TabProfile(pagerState, tabs)
+            HorizontalPageProfile(
+                state = state,
+                pagerState = pagerState,
+                favoritesPaging = favoritesPaging,
+                watchlistPaging = watchlistPaging,
+                onRemoveFavorite = onRemoveFavorite,
+                onRemoveWatchlist = onRemoveWatchlist,
+                onMovieClick = onMovieClick,
             )
         }
-        val tabs = context.getTabTitle()
-        val pagerState = rememberPagerState(pageCount = { tabs.size })
-        Spacer(Modifier.height(16.dp))
-        TabProfile(pagerState, tabs)
-        HorizontalPageProfile(
-            state = state,
-            pagerState = pagerState,
-            favoritesPaging = favoritesPaging,
-            watchlistPaging = watchlistPaging,
-            onRemoveFavorite = onRemoveFavorite,
-            onRemoveWatchlist = onRemoveWatchlist,
-            onMovieClick = onMovieClick,
-        )
     }
 }
 

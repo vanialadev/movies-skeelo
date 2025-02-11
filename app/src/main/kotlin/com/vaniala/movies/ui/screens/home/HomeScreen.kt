@@ -124,14 +124,13 @@ private fun MovieList(title: String, moviesPaging: LazyPagingItems<Movie>, onMov
 
 @Preview(showBackground = true)
 @Composable
-fun MovieListPreview() {
-    val sampleListMoviePageData = sampleMoviePageData.collectAsLazyPagingItems()
-    MovieList(stringResource(R.string.movies_popular), sampleListMoviePageData)
+fun HomeScreenPreview() {
+    HomeScreen(HomeUiState(sampleMoviePageData, sampleMoviePageData), {})
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MovieListLoadingPreview() {
+fun MovieListPreview() {
     val sampleListMoviePageData = sampleMoviePageData.collectAsLazyPagingItems()
     MovieList(stringResource(R.string.movies_popular), sampleListMoviePageData)
 }

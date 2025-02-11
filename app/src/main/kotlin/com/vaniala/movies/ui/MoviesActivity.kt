@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -143,24 +144,29 @@ fun MoviesApp(
                     topAppBarTitle()
                 },
                 actions = {
-                    IconButton(onClick = goToSettings) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = stringResource(R.string.settings),
-                        )
+                    if (isShowBottomAppBar) {
+                        IconButton(onClick = goToSettings, Modifier.testTag("settings")) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = stringResource(R.string.settings),
+                            )
+                        }
                     }
                 },
                 navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        Modifier
-                            .padding(16.dp)
-                            .clip(CircleShape)
-                            .clickable {
-                                onBackNavigationClick()
-                            },
-                    )
+                    if (!isShowBottomAppBar) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            Modifier
+                                .padding(16.dp)
+                                .clip(CircleShape)
+                                .testTag("onBackNavigation")
+                                .clickable {
+                                    onBackNavigationClick()
+                                },
+                        )
+                    }
                 },
             )
         },

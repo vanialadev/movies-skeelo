@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,5 +66,7 @@ private fun ThemeOption(text: String, selected: Boolean, onClick: () -> Unit) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(isDarkTheme = false, onThemeChanged = {})
+    Surface {
+        SettingsScreen(isDarkTheme = false, onThemeChanged = {})
+    }
 }

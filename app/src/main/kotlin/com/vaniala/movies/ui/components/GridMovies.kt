@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -31,7 +32,7 @@ fun GridMovies(
     Column {
         LazyVerticalGrid(
             columns = GridCells.Fixed(TRIPLE_COLUMN),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().testTag("gridMovies"),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -46,6 +47,7 @@ fun GridMovies(
                         Modifier
                             .fillMaxWidth()
                             .height(200.dp)
+                            .testTag("movieItem_$index")
                             .clickable { movie?.let { onMovieClick(it) } },
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {

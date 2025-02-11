@@ -1,5 +1,6 @@
 package com.vaniala.movies.ui.screens.moviedetails
 
+import android.view.Surface
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,6 +37,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,7 +64,11 @@ fun MovieDetailsScreen(
     toggleWatchlist: (Boolean) -> Unit = {},
     onMovieClick: (Int) -> Unit = {},
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("MovieDetailsScreen"),
+    ) {
         if (uiState.isLoading) {
             MovieDetailsSkeleton()
         } else {
@@ -236,36 +243,40 @@ class ToggleButton(val icon: ImageVector, val action: () -> Unit)
 @Preview(showBackground = true)
 @Composable
 private fun MovieDetailsScreenPreview() {
-    MovieDetailsScreen(
-        MovieDetailsUiState(
-            isLoading = false,
-            movieAllDetails = MovieAllDetails(
-                movieDetails = MovieDetails(
-                    title = "Sonic 3",
-                    genres = listOf(Genres(id = 1, name = "Drama"), Genres(id = 2, name = "comedia")),
-                    overview = LoremIpsum(1).values.joinToString(" "),
-                    voteAverage = Random.nextDouble(0.0, 10.0),
-                    voteCount = Random.nextInt(100, 10000),
+    Surface {
+        MovieDetailsScreen(
+            MovieDetailsUiState(
+                isLoading = false,
+                movieAllDetails = MovieAllDetails(
+                    movieDetails = MovieDetails(
+                        title = "Sonic 3",
+                        genres = listOf(Genres(id = 1, name = "Drama"), Genres(id = 2, name = "comedia")),
+                        overview = LoremIpsum(1).values.joinToString(" "),
+                        voteAverage = Random.nextDouble(0.0, 10.0),
+                        voteCount = Random.nextInt(100, 10000),
+                    ),
                 ),
             ),
-        ),
-    )
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun MovieDetailsScreenLoadingPreview() {
-    MovieDetailsScreen(
-        MovieDetailsUiState(
-            movieAllDetails = MovieAllDetails(
-                movieDetails = MovieDetails(
-                    title = "Sonic 3",
-                    genres = listOf(Genres(id = 1, name = "Drama"), Genres(id = 2, name = "comedia")),
-                    overview = LoremIpsum(1).values.joinToString(" "),
-                    voteAverage = Random.nextDouble(0.0, 10.0),
-                    voteCount = Random.nextInt(100, 10000),
+    Surface {
+        MovieDetailsScreen(
+            MovieDetailsUiState(
+                movieAllDetails = MovieAllDetails(
+                    movieDetails = MovieDetails(
+                        title = "Sonic 3",
+                        genres = listOf(Genres(id = 1, name = "Drama"), Genres(id = 2, name = "comedia")),
+                        overview = LoremIpsum(1).values.joinToString(" "),
+                        voteAverage = Random.nextDouble(0.0, 10.0),
+                        voteCount = Random.nextInt(100, 10000),
+                    ),
                 ),
             ),
-        ),
-    )
+        )
+    }
 }
