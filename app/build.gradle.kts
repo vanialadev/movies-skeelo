@@ -41,6 +41,13 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 dependencies {
@@ -56,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.testing)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)
@@ -67,7 +75,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.compose)
-    ksp(libs.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.coil)
     implementation(libs.coil.svg)
@@ -86,4 +94,12 @@ dependencies {
     implementation(libs.androidx.material.icons)
 
     debugImplementation(libs.leakcanary)
+
+    androidTestImplementation(libs.hilt.testing)
+    kspAndroidTest(libs.hilt.compiler)
+
+    testImplementation(libs.hilt.testing)
+    testAnnotationProcessor(libs.hilt.compiler)
+
+    androidTestImplementation(libs.mockk.android)
 }
