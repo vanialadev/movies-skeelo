@@ -61,6 +61,8 @@ import com.vaniala.movies.ui.components.AsyncImagePoster
 import com.vaniala.movies.ui.components.ImageBottomSheet
 import com.vaniala.movies.ui.components.MovieDetailsSkeleton
 import com.vaniala.movies.ui.utils.Constants.IMAGE_URL_ORIGINAL
+import com.vaniala.movies.utils.downloadImage
+import com.vaniala.movies.utils.shareImage
 import kotlin.random.Random
 
 // todo:v refactor cirar componentes
@@ -73,6 +75,8 @@ fun MovieDetailsScreen(
     toggleWatchlist: (Boolean) -> Unit = {},
     onMovieClick: (Int) -> Unit = {},
 ) {
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +93,14 @@ fun MovieDetailsScreen(
                 ImageBottomSheet(
                     sheetState = sheetState,
                     onDismiss = { showBottomSheet = false },
-                    url = selectedImageUrl,
+                    onShare = {
+                        context.shareImage(selectedImageUrl)
+                    },
+                    onDownload = {
+                        val fileName = "movie_${System.currentTimeMillis()}.jpg"
+                        context.downloadImage(selectedImageUrl, fileName)
+                    },
+
                 )
             }
 

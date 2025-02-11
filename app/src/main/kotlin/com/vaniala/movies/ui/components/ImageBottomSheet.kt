@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,16 +15,18 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.vaniala.movies.R
-import com.vaniala.movies.utils.shareImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageBottomSheet(sheetState: SheetState? = null, onDismiss: () -> Unit = {}, url: String) {
-    val context = LocalContext.current
+fun ImageBottomSheet(
+    sheetState: SheetState? = null,
+    onDismiss: () -> Unit = {},
+    onShare: () -> Unit = {},
+    onDownload: () -> Unit = {},
+) {
     sheetState?.let {
         ModalBottomSheet(
             onDismissRequest = onDismiss,
@@ -37,7 +40,7 @@ fun ImageBottomSheet(sheetState: SheetState? = null, onDismiss: () -> Unit = {},
             ) {
                 TextButton(
                     onClick = {
-                        context.shareImage(url)
+                        onShare
                         onDismiss()
                     },
                     modifier = Modifier
@@ -50,6 +53,20 @@ fun ImageBottomSheet(sheetState: SheetState? = null, onDismiss: () -> Unit = {},
                         modifier = Modifier.padding(end = 8.dp),
                     )
                     Text(text = stringResource(R.string.share))
+                }
+                TextButton(
+                    onClick = {
+                        onDownload()
+                        onDismiss()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Download,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp),
+                    )
+                    Text(text = stringResource(R.string.download))
                 }
             }
         }

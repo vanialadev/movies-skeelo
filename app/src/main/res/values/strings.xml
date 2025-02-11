@@ -18,4 +18,6 @@
     <string name="light_theme">Claro</string>
     <string name="dark_theme">Escuro</string>
     <string name="share">Compartilhar</string>
+    <string name="download">Baixar</string>
+    <string name="downloading">Baixando</string>
 </resources>
