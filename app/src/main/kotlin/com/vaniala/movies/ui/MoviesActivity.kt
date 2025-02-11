@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -38,14 +39,24 @@ import com.vaniala.movies.ui.components.MovieBottomAppBar
 import com.vaniala.movies.ui.components.bottomAppBarItems
 import com.vaniala.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import timber.log.Timber
+
+const val DURATION = 10000L
 
 @AndroidEntryPoint
 class MoviesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        var keepSplashScreen = true
+        splashScreen.setKeepOnScreenCondition { keepSplashScreen }
         setContent {
+            LaunchedEffect(Unit) {
+                delay(DURATION)
+                keepSplashScreen = false
+            }
             MoviesTheme {
                 MovieApp()
             }
@@ -102,6 +113,7 @@ fun MovieApp(navController: NavHostController = rememberNavController()) {
         },
         topAppBarTitle = {
             when (currentRoute) {
+                HomeScreenDestination.route -> Text(stringResource(R.string.app_name))
                 ProfileScreenDestination.route -> Text(stringResource(R.string.profile_title))
                 MovieDetailsScreenDestination.route, MovieDetailsScreenDestination.routeWithArgs -> Text(
                     stringResource(R.string.details),
