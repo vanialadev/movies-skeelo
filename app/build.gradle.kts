@@ -93,6 +93,8 @@ dependencies {
 
     implementation(libs.androidx.material.icons)
 
+    implementation(libs.accompanist.navigation.animation)
+
     debugImplementation(libs.leakcanary)
 
     androidTestImplementation(libs.hilt.testing)

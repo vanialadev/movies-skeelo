@@ -1,5 +1,6 @@
 package com.vaniala.movies.ui.screens.moviedetails
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -26,7 +26,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -57,6 +56,7 @@ import com.vaniala.movies.R
 import com.vaniala.movies.domain.model.Genres
 import com.vaniala.movies.domain.model.MovieAllDetails
 import com.vaniala.movies.domain.model.MovieDetails
+import com.vaniala.movies.ui.components.AnimatedIcon
 import com.vaniala.movies.ui.components.AsyncImagePoster
 import com.vaniala.movies.ui.components.ImageBottomSheet
 import com.vaniala.movies.ui.components.MovieDetailsSkeleton
@@ -66,8 +66,8 @@ import com.vaniala.movies.utils.shareImage
 import kotlin.random.Random
 
 // todo:v refactor cirar componentes
-@Suppress("LongMethod")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Suppress("MagicNumber", "LongMethod")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun MovieDetailsScreen(
     uiState: MovieDetailsUiState,
@@ -210,13 +210,15 @@ fun MovieDetailsScreen(
                         },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(
-                            toggleButtonFavorite.icon,
-                            contentDescription = null,
-                            Modifier.size(43.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                        AnimatedIcon(
+                            isActive = movieStatus?.favorite == true,
+                            activeIcon = Icons.Filled.Favorite,
+                            inactiveIcon = Icons.Outlined.FavoriteBorder,
                         )
-                        Text(text = stringResource(R.string.favorites), color = MaterialTheme.colorScheme.primary)
+                        Text(
+                            text = stringResource(R.string.favorites),
+                            color = MaterialTheme.colorScheme.primary,
+                        )
                     }
                     Row(
                         modifier = Modifier.clickable {
@@ -224,13 +226,15 @@ fun MovieDetailsScreen(
                         },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(
-                            toggleButtonWatchlist.icon,
-                            contentDescription = null,
-                            Modifier.size(43.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                        AnimatedIcon(
+                            isActive = movieStatus?.watchlist == true,
+                            activeIcon = Icons.Filled.Clear,
+                            inactiveIcon = Icons.Outlined.Add,
                         )
-                        Text(text = stringResource(R.string.watchlist), color = MaterialTheme.colorScheme.primary)
+                        Text(
+                            text = stringResource(R.string.watchlist),
+                            color = MaterialTheme.colorScheme.primary,
+                        )
                     }
                 }
                 Column(modifier = Modifier.padding(16.dp)) {
