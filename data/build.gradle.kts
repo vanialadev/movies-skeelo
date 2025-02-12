@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import java.io.File
 import java.util.Properties
 
@@ -50,6 +52,15 @@ android {
     }
     buildFeatures {
         buildConfig = true
+    }
+    testOptions {
+        unitTests.all { test ->
+            test.testLogging {
+                events("passed", "skipped", "failed", "standardOut", "standardError")
+                test.outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
     }
 }
 

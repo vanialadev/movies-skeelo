@@ -1,3 +1,4 @@
+@Suppress("UnstableApiUsage")
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -32,6 +33,16 @@ android {
     }
     kotlinOptions {
         jvmTarget = "21"
+    }
+
+    testOptions {
+        unitTests.all { test ->
+            test.testLogging {
+                events("passed", "skipped", "failed", "standardOut", "standardError")
+                test.outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
     }
 }
 
