@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+private const val MINIMUM_QUERY_LENGTH = 4
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val searchMoviesUseCase: SearchMoviesUseCase) : ViewModel() {
 
@@ -25,6 +27,7 @@ class SearchViewModel @Inject constructor(private val searchMoviesUseCase: Searc
                 } else {
                     null
                 },
+                showMinimumCharactersMessage = newQuery.isNotEmpty() && newQuery.length < MINIMUM_QUERY_LENGTH,
             )
         }
     }
