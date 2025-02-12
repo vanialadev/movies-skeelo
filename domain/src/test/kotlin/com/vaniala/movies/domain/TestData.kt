@@ -20,7 +20,7 @@ object TestData {
 
     val exception = RuntimeException("error")
 
-    val movie = Movie(
+    private val movie = Movie(
         id = 1,
         title = "Movie Title",
         overview = "Overview",
@@ -32,4 +32,8 @@ object TestData {
     )
 
     val pagingData = PagingData.from(listOf(movie))
+
+    const val QUERY_EMPTY = ""
+    const val QUERY_THREE_DIGITS = "aaa"
+    const val QUERY_FOUR_DIGITS = "aaaa"
 }
