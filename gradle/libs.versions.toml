@@ -32,7 +32,6 @@ splashscreen = "1.0.1"
 paging = "3.3.5"
 datastore = "1.1.2"
 mockk = "1.13.10"
-activity = "1.10.0"
 
 [libraries]
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
@@ -81,7 +80,6 @@ androidx-navigation-testing = { group = "androidx.navigation", name = "navigatio
 mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
-androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
