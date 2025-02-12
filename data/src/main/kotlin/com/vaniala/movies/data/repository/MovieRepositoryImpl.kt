@@ -37,4 +37,6 @@ class MovieRepositoryImpl @Inject constructor(private val dataSource: RemoteData
     ).flowOn(IO)
 
     override fun getMovieTopRated(): Flow<PagingData<Movie>> = dataSource.getMovieTopRated().flowOn(IO)
+
+    override fun searchMovies(query: String): Flow<PagingData<Movie>> = dataSource.searchMovies(query).flowOn(IO)
 }

@@ -179,4 +179,24 @@ class RemoteDataSourceImpl @Inject constructor(private val movieService: MovieSe
         .catch {
             Timber.e(it)
         }
+
+    override fun searchMovies(query: String): Flow<PagingData<Movie>> = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE_MOVIE,
+            enablePlaceholders = false,
+            initialLoadSize = INITIAL_LOAD_SIZE_MOVIE,
+        ),
+        pagingSourceFactory = {
+            MovieSearchPaging(movieService, query)
+        },
+    ).flow
+        .flowOn(IO)
+        .map { paging ->
+            paging.map { movies ->
+                movies.toModel()
+            }
+        }
+        .catch {
+            Timber.e(it)
+        }
 }

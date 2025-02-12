@@ -23,4 +23,5 @@ interface MovieRepository {
     fun addWatchlist(watchlist: AddWatchlist): Flow<AddWatchListOrFavorite>
     fun getMovieRecommendations(movieId: Int): Flow<List<Movie>>
     fun getMovieTopRated(): Flow<PagingData<Movie>>
+    fun searchMovies(query: String): Flow<PagingData<Movie>>
 }
