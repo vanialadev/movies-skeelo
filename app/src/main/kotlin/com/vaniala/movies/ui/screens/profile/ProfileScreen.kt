@@ -178,6 +178,7 @@ fun HorizontalPageProfile(
             0 -> favoritesPaging?.let {
                 LoadStates(it) {
                     GridMovies(
+                        true,
                         state.removingFavorites,
                         favoritesPaging,
                         onRemoveFavorite,
@@ -189,6 +190,7 @@ fun HorizontalPageProfile(
             1 -> watchlistPaging?.let {
                 LoadStates(it) {
                     GridMovies(
+                        true,
                         state.removingWatchlist,
                         watchlistPaging,
                         onRemoveWatchlist,
@@ -215,39 +217,58 @@ fun LoadStates(paging: LazyPagingItems<Movie>, gridMovies: @Composable () -> Uni
 }
 
 @Composable
-fun MovieWithRemove(onRemove: (Int, LazyPagingItems<Movie>) -> Unit, movie: Movie?, moviesPaging: LazyPagingItems<Movie>) {
+fun MovieWithRemove(
+    hasRemove: Boolean? = false,
+    onRemove: (Int, LazyPagingItems<Movie>) -> Unit,
+    movie: Movie?,
+    moviesPaging: LazyPagingItems<Movie>,
+) {
     Box {
-        Box(
-            Modifier
-                .padding(8.dp)
-                .background(
-                    color = Color.LightGray.copy(alpha = 0.5f),
-                    shape = CircleShape,
+        if (hasRemove == true) {
+            Box(
+                Modifier
+                    .padding(8.dp)
+                    .background(
+                        color = Color.LightGray.copy(alpha = 0.5f),
+                        shape = CircleShape,
+                    )
+                    .clip(CircleShape)
+                    .align(Alignment.TopEnd)
+                    .clickable { movie?.id?.let { onRemove(it, moviesPaging) } }
+                    .padding(4.dp),
+            ) {
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = null,
+                    Modifier.align(
+                        Alignment.Center,
+                    ),
+                    tint = Color.Black,
                 )
-                .clip(CircleShape)
-                .align(Alignment.TopEnd)
-                .clickable { movie?.id?.let { onRemove(it, moviesPaging) } }
-                .padding(4.dp),
-        ) {
-            Icon(
-                Icons.Default.Close,
+            }
+
+            AsyncImage(
+                model = "$IMAGE_URL_LARGE${movie?.posterPath}",
                 contentDescription = null,
-                Modifier.align(
-                    Alignment.Center,
-                ),
-                tint = Color.Black,
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .zIndex(-1f),
+                placeholder = ColorPainter(Color.Gray),
+                contentScale = ContentScale.Crop,
+            )
+        } else {
+            AsyncImage(
+                model = "$IMAGE_URL_LARGE${movie?.posterPath}",
+                contentDescription = null,
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .zIndex(-1f),
+                placeholder = ColorPainter(Color.Gray),
+                contentScale = ContentScale.Crop,
             )
         }
-        AsyncImage(
-            model = "$IMAGE_URL_LARGE${movie?.posterPath}",
-            contentDescription = null,
-            Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .zIndex(-1f),
-            placeholder = ColorPainter(Color.Gray),
-            contentScale = ContentScale.Crop,
-        )
     }
 }
 

@@ -7,10 +7,7 @@ import com.vaniala.movies.data.remote.service.MovieService
 import com.vaniala.movies.data.utils.Constants.STARTING_PAGE_INDEX
 import timber.log.Timber
 
-class MovieSearchPaging(
-    private val service: MovieService,
-    private val query: String,
-) : PagingSource<Int, MovieResponse>() {
+class MovieSearchPaging(private val service: MovieService, private val query: String) : PagingSource<Int, MovieResponse>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieResponse> {
         val position = params.key ?: STARTING_PAGE_INDEX
 

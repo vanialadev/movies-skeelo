@@ -17,6 +17,7 @@ import com.vaniala.movies.extensions.slideVerticallyOutOfContainer
 import com.vaniala.movies.navigation.ScreensDestinations.HomeScreenDestination
 import com.vaniala.movies.navigation.ScreensDestinations.MovieDetailsScreenDestination
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
+import com.vaniala.movies.navigation.ScreensDestinations.SearchScreenDestination
 import com.vaniala.movies.ui.components.BottomAppBarItem
 
 @Composable
@@ -30,6 +31,13 @@ fun MovieNavHost(navController: NavHostController) {
         popExitTransition = { popExitTransition() },
     ) {
         homeScreen(
+            onNavigateToMovieDetails = { movie ->
+                movie.id?.let {
+                    navController.navigateToMovieDetails(it)
+                }
+            },
+        )
+        searchScreen(
             onNavigateToMovieDetails = { movie ->
                 movie.id?.let {
                     navController.navigateToMovieDetails(it)
@@ -56,7 +64,7 @@ fun MovieNavHost(navController: NavHostController) {
 }
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition() = when (initialState.destination.route) {
-    ProfileScreenDestination.route -> slideVerticallyOutOfContainer(
+    ProfileScreenDestination.route, SearchScreenDestination.route -> slideVerticallyOutOfContainer(
         AnimatedContentTransitionScope.SlideDirection.Down,
     )
 
@@ -65,7 +73,7 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(
 }
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition() = when (initialState.destination.route) {
-    ProfileScreenDestination.route -> slideVerticallyIntoContainer(
+    ProfileScreenDestination.route, SearchScreenDestination.route -> slideVerticallyIntoContainer(
         AnimatedContentTransitionScope.SlideDirection.Down,
     )
 
@@ -74,7 +82,7 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition
 }
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition() = when (targetState.destination.route) {
-    ProfileScreenDestination.route -> slideVerticallyOutOfContainer(
+    ProfileScreenDestination.route, SearchScreenDestination.route -> slideVerticallyOutOfContainer(
         AnimatedContentTransitionScope.SlideDirection.Up,
     )
 
@@ -83,7 +91,7 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition() =
 }
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition() = when (targetState.destination.route) {
-    ProfileScreenDestination.route -> slideVerticallyIntoContainer(
+    ProfileScreenDestination.route, SearchScreenDestination.route -> slideVerticallyIntoContainer(
         AnimatedContentTransitionScope.SlideDirection.Up,
     )
 
@@ -92,15 +100,20 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition() 
 }
 
 fun NavController.navigateToBottomAppBarItem(item: BottomAppBarItem) {
-    if (item == BottomAppBarItem.Home) {
-        navigateToHome(
+    when (item) {
+        BottomAppBarItem.Home -> navigateToHome(
             navOptions {
                 launchSingleTop = true
                 popUpTo(HomeScreenDestination.route)
             },
         )
-    } else {
-        navigateToProfile(
+        BottomAppBarItem.Search -> navigateToSearch(
+            navOptions {
+                launchSingleTop = true
+                popUpTo(SearchScreenDestination.route)
+            },
+        )
+        BottomAppBarItem.Profile -> navigateToProfile(
             navOptions {
                 launchSingleTop = true
                 popUpTo(ProfileScreenDestination.route)

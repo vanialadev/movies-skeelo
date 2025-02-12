@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val themePreferences: ThemePreferences,
-) : ViewModel() {
+class SettingsViewModel @Inject constructor(private val themePreferences: ThemePreferences) : ViewModel() {
 
     val isDarkTheme: StateFlow<Boolean> = themePreferences.isDarkTheme
         .stateIn(

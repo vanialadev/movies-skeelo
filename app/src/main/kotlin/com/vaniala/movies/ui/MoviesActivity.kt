@@ -38,6 +38,7 @@ import com.vaniala.movies.R
 import com.vaniala.movies.navigation.MovieNavHost
 import com.vaniala.movies.navigation.ScreensDestinations.HomeScreenDestination
 import com.vaniala.movies.navigation.ScreensDestinations.ProfileScreenDestination
+import com.vaniala.movies.navigation.ScreensDestinations.SearchScreenDestination
 import com.vaniala.movies.navigation.navigateToBottomAppBarItem
 import com.vaniala.movies.navigation.navigateToSettings
 import com.vaniala.movies.preferences.ThemePreferences
@@ -89,15 +90,17 @@ fun MoviesApp(navController: NavHostController) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
+    val isShowBottomAppBar = currentRoute in listOf(
+        HomeScreenDestination.route,
+        SearchScreenDestination.route,
+        ProfileScreenDestination.route,
+    )
+
     val bottomAppBarItemSelected = when (currentRoute) {
+        SearchScreenDestination.route -> BottomAppBarItem.Search
         ProfileScreenDestination.route -> BottomAppBarItem.Profile
         else -> BottomAppBarItem.Home
     }
-
-    val isShowBottomAppBar = currentRoute in listOf(
-        HomeScreenDestination.route,
-        ProfileScreenDestination.route,
-    )
 
     MoviesApp(
         bottomAppBarItemSelected = bottomAppBarItemSelected,
@@ -115,6 +118,10 @@ fun MoviesApp(navController: NavHostController) {
             when (currentRoute) {
                 HomeScreenDestination.route -> {
                     Text(text = stringResource(R.string.app_name))
+                }
+
+                SearchScreenDestination.route -> {
+                    Text(text = stringResource(R.string.search_movies))
                 }
 
                 ProfileScreenDestination.route -> {

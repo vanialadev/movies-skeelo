@@ -24,15 +24,18 @@ import com.vaniala.movies.ui.utils.Constants.TRIPLE_COLUMN
 
 @Composable
 fun GridMovies(
-    removingItems: Set<Int>,
+    hasRemove: Boolean? = false,
+    removingItems: Set<Int> = emptySet(),
     moviesPaging: LazyPagingItems<Movie>,
-    onRemove: (Int, LazyPagingItems<Movie>) -> Unit,
+    onRemove: (Int, LazyPagingItems<Movie>) -> Unit = { _, _ -> },
     onMovieClick: (Movie) -> Unit = {},
 ) {
     Column {
         LazyVerticalGrid(
             columns = GridCells.Fixed(TRIPLE_COLUMN),
-            modifier = Modifier.fillMaxSize().testTag("gridMovies"),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("gridMovies"),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -57,6 +60,7 @@ fun GridMovies(
                             overflow = TextOverflow.Ellipsis,
                         )
                         MovieWithRemove(
+                            hasRemove = hasRemove,
                             movie = movie,
                             onRemove = onRemove,
                             moviesPaging = moviesPaging,

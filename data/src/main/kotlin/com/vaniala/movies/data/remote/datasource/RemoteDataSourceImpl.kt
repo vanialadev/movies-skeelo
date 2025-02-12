@@ -9,6 +9,7 @@ import com.vaniala.movies.data.mappers.Mappers.toModel
 import com.vaniala.movies.data.mappers.Mappers.toRequest
 import com.vaniala.movies.data.remote.paging.FavoritePaging
 import com.vaniala.movies.data.remote.paging.MoviePaging
+import com.vaniala.movies.data.remote.paging.MovieSearchPaging
 import com.vaniala.movies.data.remote.paging.MovieTopRatedPaging
 import com.vaniala.movies.data.remote.paging.WatchlistPaging
 import com.vaniala.movies.data.remote.service.MovieService
