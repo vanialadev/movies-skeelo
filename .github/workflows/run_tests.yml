@@ -20,7 +20,13 @@ jobs:
         distribution: 'temurin'
         cache: 'gradle'
 
+    - name: Create local.properties
+      run: |
+        echo "TMDB_KEY=\"${{ secrets.TMDB_KEY }}\"" > local.properties
+        echo "ACCOUNT_ID=${{ secrets.ACCOUNT_ID }}" >> local.properties
+        echo "SESSION_ID=\"${{ secrets.SESSION_ID }}\"" >> local.properties
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run unittest
+    - name: Run unit test
       run: ./gradlew clean testDebug
