@@ -9,6 +9,8 @@ import com.vaniala.movies.domain.usecase.AddFavoriteUseCase
 import com.vaniala.movies.domain.usecase.AddWatchlistUseCase
 import com.vaniala.movies.domain.usecase.GetAllMovieDetailsUseCase
 import com.vaniala.movies.domain.usecase.GetMovieRecommendationsUseCase
+import com.vaniala.movies.ui.events.MovieEvents.notifyFavoriteUpdated
+import com.vaniala.movies.ui.events.MovieEvents.notifyWatchlistUpdated
 import com.vaniala.movies.ui.utils.Constants.SIZE_RECOMMENDATIONS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -64,6 +66,7 @@ class MovieDetailsViewModel @Inject constructor(
                                 ),
                             ),
                         )
+                        notifyFavoriteUpdated(id)
                     } else {
                         _uiState.value = _uiState.value.copy(
                             messageError = status.statusMessage,
@@ -86,6 +89,7 @@ class MovieDetailsViewModel @Inject constructor(
                                 ),
                             ),
                         )
+                        notifyWatchlistUpdated(id)
                     } else {
                         _uiState.value = _uiState.value.copy(
                             messageError = status.statusMessage,

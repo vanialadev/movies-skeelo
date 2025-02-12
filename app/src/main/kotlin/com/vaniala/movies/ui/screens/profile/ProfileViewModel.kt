@@ -18,6 +18,7 @@ import com.vaniala.movies.domain.usecase.GetFavoriteUseCase
 import com.vaniala.movies.domain.usecase.GetMovieImagesUseCase
 import com.vaniala.movies.domain.usecase.GetProfileDetailsUseCase
 import com.vaniala.movies.domain.usecase.GetWatchlistUseCase
+import com.vaniala.movies.ui.events.MovieEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +47,8 @@ class ProfileViewModel @Inject constructor(
         getProfileDetails()
         getFavorites()
         getWatchlist()
+        observeFavoriteUpdates()
+        observeWatchlistUpdates()
     }
 
     private fun getWatchlist() {
@@ -141,6 +144,22 @@ class ProfileViewModel @Inject constructor(
 //                        todo:v tratar erro se nao remover da api
                     }
                 }
+        }
+    }
+
+    private fun observeFavoriteUpdates() {
+        viewModelScope.launch {
+            MovieEvents.favoriteUpdated.collect {
+                getFavorites()
+            }
+        }
+    }
+
+    private fun observeWatchlistUpdates() {
+        viewModelScope.launch {
+            MovieEvents.watchlistUpdated.collect {
+                getWatchlist()
+            }
         }
     }
 }

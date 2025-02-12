@@ -83,8 +83,6 @@ class MoviesActivity : ComponentActivity() {
     }
 }
 
-@Suppress("LongMethod")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesApp(navController: NavHostController) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -134,7 +132,6 @@ fun MoviesApp(navController: NavHostController) {
     }
 }
 
-@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesApp(
